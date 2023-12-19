@@ -21,7 +21,7 @@ const SignIn = ({
   const [password, setPassword] = useState("");
   const [resetLinkSent, setResetLinkSent] = useState(false);
   const parentVariants = {
-    hidden: { opacity: 0, y: 50 },
+    hidden: { opacity: 0, y: -50 },
     visible: { opacity: 1, y: 0 },
   };
 
@@ -93,7 +93,7 @@ const SignIn = ({
 
   return (
     <motion.div
-      className="w-[300px] sm:w-[400px] h-[85%] bg-[#0f0f0f] rounded-lg overflow-hidden"
+      className="w-full h-full sm:w-[400px] sm:h-[600px] bg-[#0f0f0f] rounded-lg overflow-hidden"
       variants={parentVariants}
       initial="hidden"
       animate="visible"
@@ -101,13 +101,13 @@ const SignIn = ({
     >
       <Header />
       <motion.div
-        className="w-full h-[70%] flex  justify-evenly items-center flex-col px-7 sm:px-14"
+        className="w-full h-[70%] flex  justify-center py-20 items-center flex-col px-7 sm:px-14"
         variants={childVariants}
         initial="hidden"
         animate="visible"
         transition={{ duration: 0.5, delay: 0.3 }}
       >
-        <div className="w-full flex flex-col justify-center items-center">
+        <div className="w-full flex  flex-col justify-center items-center mb-20">
           <div className=" w-full  mb-4">
             <input
               className="w-full h-10 bg-transparent border-b-[1px] outline-none text-gray-400 px-2 text-base border-[#181818] placeholder:text-[#434343]"
@@ -135,18 +135,21 @@ const SignIn = ({
         <div className="w-full">
           <button
             disabled={authRequestSent}
-            className="w-full h-10 bg-pink-primary rounded-md text-white mb-5"
+            className="w-full h-10 bg-pink-primary rounded-md text-white mb-3"
             onClick={handleSignIn}
           >
             SIGN IN
           </button>
-          <button
-            disabled={authRequestSent}
-            onClick={() => setIsSignIn(false)}
-            className="w-full h-10 border-[1px] border-pink-primary text-white rounded-md  font-light"
-          >
-            SIGN UP
-          </button>
+          <div className="flex justify-center items-center text-[#676767] text-sm">
+            <div className="mr-1">New user?</div>
+            <button
+              disabled={authRequestSent}
+              onClick={() => setIsSignIn(false)}
+              className="underline text-pink-primary"
+            >
+              Sign up
+            </button>
+          </div>
         </div>
       </motion.div>
     </motion.div>

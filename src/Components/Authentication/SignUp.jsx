@@ -60,9 +60,6 @@ const SignUp = ({
       await addDoc(usersCollection, {
         username: "user",
         email: email,
-        likedSongs: {},
-        playlists: {},
-        history: {},
       });
 
       setUser(user);
@@ -79,7 +76,7 @@ const SignUp = ({
 
   return (
     <motion.div
-      className="w-[300px] sm:w-[400px] h-[85%] bg-[#0f0f0f] rounded-lg overflow-hidden"
+      className="w-full h-full sm:w-[400px] sm:h-[600px] bg-[#0f0f0f] rounded-lg overflow-hidden"
       variants={parentVariants}
       initial="hidden"
       animate="visible"
@@ -87,13 +84,13 @@ const SignUp = ({
     >
       <Header />
       <motion.div
-        className="w-full h-[70%] flex  justify-evenly items-center flex-col px-14 "
+        className="w-full h-[70%] flex  justify-center items-center flex-col px-14 "
         variants={childVariants}
         initial="hidden"
         animate="visible"
         transition={{ duration: 0.5, delay: 0.3 }}
       >
-        <div className="w-full flex flex-col justify-center items-center">
+        <div className="w-full flex flex-col justify-center items-center  mb-20">
           <div className=" w-full  mb-4">
             <input
               className="w-full h-10 bg-transparent border-b-[1px] outline-none text-gray-400 px-2 text-base border-[#181818] placeholder:text-[#434343]"
@@ -119,12 +116,16 @@ const SignUp = ({
           >
             SIGN UP
           </button>
-          <button
-            onClick={() => setIsSignIn(true)}
-            className="w-full h-10 border-[1px] border-pink-primary text-white rounded-md  font-light"
-          >
-            SIGN IN
-          </button>
+          <div className="flex justify-center items-center text-[#676767] text-sm">
+            <div className="mr-1">Already a User?</div>
+            <button
+              disabled={authRequestSent}
+              onClick={() => setIsSignIn(true)}
+              className="underline text-pink-primary"
+            >
+              Sign in
+            </button>
+          </div>
         </div>
       </motion.div>
     </motion.div>

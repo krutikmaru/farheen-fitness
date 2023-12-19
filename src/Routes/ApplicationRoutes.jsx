@@ -11,7 +11,14 @@ const RoutesWrapper = () => {
 
   return (
     <>
-      <Toaster />
+      <Toaster
+        toastOptions={{
+          style: {
+            background: "#181818",
+            color: "#fff",
+          },
+        }}
+      />
 
       <Routes>
         {user ? (
