@@ -68,6 +68,7 @@ const SignIn = ({
       } else {
         toast.error(error.message);
       }
+    } finally {
       setAuthRequestSent(false);
     }
   };
