@@ -8,7 +8,7 @@ const Header = () => {
       <div className="w-24 h-24 text-white mb-2 flex justify-center items-center bg-[#1b1b1b] rounded-xl p-4">
         <FontAwesomeIcon
           icon={faChartGantt}
-          className="h-12 w-12 text-pink-primary"
+          className="h-12 w-12 text-green-primary"
         />
       </div>
       <div>

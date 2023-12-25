@@ -4,16 +4,19 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import ApplicationRoutes from "./Routes/ApplicationRoutes";
 import { UserProvider } from "./contexts/UserContext";
+import { ApplicationManagerProvider } from "./contexts/ApplicationContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <UserProvider>
-      <BrowserRouter>
-        <ApplicationRoutes>
-          <App />
-        </ApplicationRoutes>
-      </BrowserRouter>
-    </UserProvider>
+    <ApplicationManagerProvider>
+      <UserProvider>
+        <BrowserRouter>
+          <ApplicationRoutes>
+            <App />
+          </ApplicationRoutes>
+        </BrowserRouter>
+      </UserProvider>
+    </ApplicationManagerProvider>
   </React.StrictMode>
 );

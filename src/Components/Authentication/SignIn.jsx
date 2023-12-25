@@ -136,7 +136,7 @@ const SignIn = ({
         <div className="w-full">
           <button
             disabled={authRequestSent}
-            className="w-full h-10 bg-pink-primary rounded-md text-white mb-3"
+            className="w-full h-10 bg-green-primary rounded-md text-black-main font-medium mb-3"
             onClick={handleSignIn}
           >
             SIGN IN
@@ -146,7 +146,7 @@ const SignIn = ({
             <button
               disabled={authRequestSent}
               onClick={() => setIsSignIn(false)}
-              className="underline text-pink-primary"
+              className="underline text-green-primary"
             >
               Sign up
             </button>

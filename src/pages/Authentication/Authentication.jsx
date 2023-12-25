@@ -12,7 +12,6 @@ const Authentication = () => {
   const auth = getAuth(app);
   const firestore = getFirestore(app);
 
-  console.log(auth);
   return (
     <div className="w-full h-screen flex justify-center items-center bg-black-main font-lexend overflow-hidden">
       {authRequestSent && <Loading />}

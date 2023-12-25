@@ -3,3 +3,31 @@
 @tailwind utilities;
 
 @import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+/* width */
+::-webkit-scrollbar,
+.menubar-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track,
+.menubar-scrollbar::-webkit-scrollbar-track {
+  @apply bg-black-main;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb,
+.menubar-scrollbar::-webkit-scrollbar-thumbr {
+  @apply bg-black-search-bar;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover,
+.menubar-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-[#1e1e1e];
+}
+
+body {
+  @apply bg-black-main;
+}

@@ -13,8 +13,8 @@ module.exports = {
         "black-search-bar": "#141414",
         "black-search-bar-placeholder": "#717171",
         "white-text-main": "#fbfbfb",
-        "pink-primary": "#fd4cea", // fd4cea fc3c44
-        "pink-secondary": "#f94c57", // ff95f4 f94c57
+        "green-primary": "#deff10", // fd4cea fc3c44
+        "green-secondary": "#f94c57", // ff95f4 f94c57
       },
     },
   },
