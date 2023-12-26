@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { menubar } from "../utils/data/menubar";
 
 const ApplicationManagerContext = createContext();
 
@@ -20,7 +21,9 @@ export const ApplicationManagerProvider = ({ children }) => {
 
   const [isMobileMenuActive, setIsMobileMenuActive] = useState(false);
 
-  const [selectedMenubarItemId, setSelectedMenubarItemId] = useState(1);
+  const [selectedMenubarItemId, setSelectedMenubarItemId] = useState(
+    menubar.forYou[0].id
+  );
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 850);
 
   useEffect(() => {

@@ -8,7 +8,7 @@ const Home = () => {
   const auth = getAuth(app);
 
   return (
-    <div className=" flex flex-col justify-center items-center">
+    <div className=" flex  min-h-screen flex-col justify-center items-center">
       <h1>Welcome {user.name}</h1>
       <button
         className="bg-red-600 px-6 py-1 rounded-md mt-3"

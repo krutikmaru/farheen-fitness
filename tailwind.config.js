@@ -8,7 +8,7 @@ module.exports = {
       },
       colors: {
         "black-main": "#0a0a0a",
-        "black-secondary": "#171717",
+        "black-secondary": "#0c0c0c",
         "black-ultra-light": "#1f1f1f",
         "black-search-bar": "#141414",
         "black-search-bar-placeholder": "#717171",
