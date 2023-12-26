@@ -55,7 +55,7 @@ const ProgressBox = ({
       initial={{ opacity: 0, x: 30 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.1, duration: 0.6, ease: "easeInOut" }}
-      className="min-w-[340px] h-48  bg-[#101010] mr-5 p-5 rounded-md flex justify-center items-center"
+      className="min-w-[340px] h-48  bg-[#101010] mr-5 p-5 rounded-md flex justify-center items-center "
       style={{ border: `2px solid #272727` }}
     >
       <div className=" w-[45%] h-full  flex flex-col">
