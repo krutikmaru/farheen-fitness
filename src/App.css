@@ -4,6 +4,10 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
 /* width */
 ::-webkit-scrollbar,
 .menubar-scrollbar::-webkit-scrollbar {

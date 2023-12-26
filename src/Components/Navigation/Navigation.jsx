@@ -13,7 +13,7 @@ const Navigation = () => {
       <div className="h-14 flex justify-center items-center ">
         <div className="w-9 h-9 rounded-full bg-green-primary cursor-pointer relative overflow-hidden">
           <img
-            src="https://carzilla.m-fractal.com/files/meera2.jpg"
+            src="https://carzilla.m-fractal.com/files/tinn.JPG"
             className="absolute object-cover top-0 left-0 w-full h-full"
             alt="MEERA"
           />

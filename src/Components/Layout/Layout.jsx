@@ -15,9 +15,12 @@ const Layout = (props) => {
 
 const MobileLayout = (props) => {
   return (
-    <div className="w-full min-h-screen font-lexend bg-black-main flex justify-center items-center text-white">
-      {props.children}
-    </div>
+    <>
+      <Navigation />
+      <div className="w-full min-h-screen font-lexend mt-16 bg-black-main flex justify-center items-center text-white">
+        {props.children}
+      </div>
+    </>
   );
 };
 
@@ -27,10 +30,10 @@ const DesktopLayout = (props) => {
       <FullScreenPopupCenter />
       <Navigation />
       <div className="w-full min-h-screen font-lexend bg-black-main flex justify-start items-start text-white mt-16">
-        <div className="border-r-2 border-[#131313] w-[250px] h-screen fixed left-0">
+        <div className="border-r-2 border-[#131313] w-[200px] h-screen fixed left-0">
           <Menubar />
         </div>
-        <div className=" w-full pl-[250px]">{props.children}</div>
+        <div className=" w-full pl-[200px]">{props.children}</div>
       </div>
     </>
   );
