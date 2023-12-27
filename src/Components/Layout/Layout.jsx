@@ -3,6 +3,7 @@ import { useApplicationManager } from "../../contexts/ApplicationContext";
 import Navigation from "../Navigation/Navigation";
 import Menubar from "../Menubar/Menubar";
 import FullScreenPopupCenter from "../Reusables/FullScreenPopupCenter";
+import MenubarMobile from "../Menubar/MenubarMobile";
 
 const Layout = (props) => {
   const { isSmallScreen } = useApplicationManager();
@@ -14,9 +15,13 @@ const Layout = (props) => {
 };
 
 const MobileLayout = (props) => {
+  const { isMobileMenuActive } = useApplicationManager();
+
   return (
     <>
+      <FullScreenPopupCenter />
       <Navigation />
+      {isMobileMenuActive && <MenubarMobile />}
       <div className="w-full min-h-screen font-lexend mt-16 bg-black-main flex justify-center items-center text-white">
         {props.children}
       </div>
