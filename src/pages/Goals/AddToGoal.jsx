@@ -33,7 +33,7 @@ const AddToGoal = () => {
           {data.title} {data.icon}
         </span>
       </h1>
-      <div className="w-[900px] h-96 bg-[#181818] rounded-md border-2 border-[#272727] mt-10 flex flex-col p-8">
+      <div className=" h-96 bg-[#181818] rounded-md border-2 border-[#272727] mt-10 flex flex-col p-8">
         <div>
           <p className="text-[#747474] text-xl font-semibold mb-3">Time</p>
           <div>
@@ -60,7 +60,7 @@ const AddToGoal = () => {
               type="number"
               value={value}
               onChange={(e) => setValue(e.target.value)}
-              className="bg-[#292929] rounded-md p-4 text-xl outline-none border-2 border-[#363636] mr-4"
+              className="bg-[#292929] w-full rounded-md p-4 text-xl outline-none border-2 border-[#363636] mr-4"
             />
           </div>
         </div>
