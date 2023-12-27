@@ -1,6 +1,7 @@
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
 
 const GoalsDisplayList = () => {
   const data = [
@@ -11,10 +12,22 @@ const GoalsDisplayList = () => {
       values: {
         isSet: true,
         targetLabel: "Goal",
-        target: "3 Liter",
         valueLabel: "Consumed",
-        value: "1.3 Liter",
-        progress: 40,
+        Daily: {
+          target: "3 Liter",
+          value: "1.3 Liter",
+          progress: 40,
+        },
+        Monthly: {
+          target: "90 Liter",
+          value: "47 Liter",
+          progress: 40,
+        },
+        Yearly: {
+          target: "1080 Liter",
+          value: "568 Liter",
+          progress: 40,
+        },
       },
     },
     {
@@ -24,10 +37,22 @@ const GoalsDisplayList = () => {
       values: {
         isSet: true,
         targetLabel: "Goal",
-        target: "500 Cals",
         valueLabel: "Burnt",
-        value: "376 Cals",
-        progress: 75,
+        Daily: {
+          target: "500 Cals",
+          value: "376 Cals",
+          progress: 75,
+        },
+        Monthly: {
+          target: "15K Cals",
+          value: "11.28K Cals",
+          progress: 75,
+        },
+        Yearly: {
+          target: " 180k Cals",
+          value: "134K Cals",
+          progress: 75,
+        },
       },
     },
     {
@@ -37,10 +62,22 @@ const GoalsDisplayList = () => {
       values: {
         isSet: true,
         targetLabel: "Goal",
-        target: "7 Hours",
         valueLabel: "Slept",
-        value: "6.5 Hours",
-        progress: 92,
+        Daily: {
+          target: "7 Hours",
+          value: "6.5 Hours",
+          progress: 92,
+        },
+        Monthly: {
+          target: "210 Hours",
+          value: "195 Hours",
+          progress: 75,
+        },
+        Yearly: {
+          target: "2520 Hours",
+          value: "2280 Hours",
+          progress: 75,
+        },
       },
     },
     {
@@ -50,10 +87,22 @@ const GoalsDisplayList = () => {
       values: {
         isSet: false,
         targetLabel: "Goal",
-        target: null,
         valueLabel: "Done",
-        value: null,
-        progress: null,
+        Daily: {
+          target: null,
+          value: null,
+          progress: null,
+        },
+        Monthly: {
+          target: null,
+          value: null,
+          progress: null,
+        },
+        Yearly: {
+          target: null,
+          value: null,
+          progress: null,
+        },
       },
     },
   ];
@@ -69,27 +118,59 @@ const GoalsDisplayList = () => {
 export default GoalsDisplayList;
 
 const SingleGoalDisplay = ({ icon, title, color, values, index }) => {
+  const timeframes = ["Daily", "Monthly", "Yearly"];
+  const [timeframe, setTimeframe] = useState(timeframes[0]);
   return (
-    <div className="w-full space-y-10 sm:space-y-0 sm:h-40 p-5 sm:py-0 rounded-md overflow-hidden bg-[#101010] border-2 border-[#272727] flex justify-start sm:justify-between items-center flex-col sm:flex-row">
-      <div className="w-[25%] h-full flex flex-col justify-center items-center">
+    <motion.div
+      initial={{ opacity: 0, x: 30 * (index + 1) }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{
+        duration: 0.6,
+        ease: "easeInOut",
+      }}
+      className="w-full space-y-10 sm:space-y-0 sm:h-44 p-5 sm:py-0 rounded-md overflow-hidden bg-[#101010] border-2 border-[#272727] flex justify-start sm:justify-between items-center flex-col sm:flex-row"
+    >
+      <div className="w-[20%] h-full flex flex-col justify-center items-center">
         <span className="text-4xl">{icon}</span>
         <h1 className="text-2xl mt-3">{title}</h1>
       </div>
       {values.isSet ? (
-        <div className="w-full sm:w-[55%] h-full flex  items-center justify-center sm:justify-start flex-col sm:flex-row">
-          <div className="bg-[#181818] w-full sm:w-40 h-24 border-2 border-[#272727] lg:w-32 rounded-md sm:mr-2 mb-2 sm:mb-0 flex justify-center items-start flex-col px-5">
-            <p className="text-[#5c5c5c] text-sm sm:text-base">
-              {values.targetLabel}
-            </p>
-            <span className="text-base sm:text-lg">{values.target}</span>
+        <div className="w-full h-full sm:w-[60%] flex flex-col justify-center items-center">
+          <div className="w-full flex justify-evenly items-center text-xs mb-3">
+            {timeframes.map((tf) => {
+              if (tf === timeframe)
+                return (
+                  <span className="border-[1px] border-green-primary bg-green-primary text-black-main rounded-xl px-4 py-1 cursor-pointer">
+                    {tf}
+                  </span>
+                );
+              return (
+                <span
+                  onClick={() => setTimeframe(tf)}
+                  className="border-[1px] border-green-primary rounded-xl px-4 py-1 cursor-pointer"
+                >
+                  {tf}
+                </span>
+              );
+            })}
           </div>
-          <div className="bg-[#181818] w-full sm:w-40 h-24 lg:w-32 border-2 border-[#272727] rounded-md flex justify-center items-start flex-col px-5">
-            <p className="text-[#5c5c5c] text-sm sm:text-base">
-              {values.valueLabel}
-            </p>
-            <span className="text-base sm:text-lg" style={{ color: color }}>
-              {values.value}
-            </span>
+          <div className="w-full flex  items-center justify-center sm:justify-start flex-col sm:flex-row">
+            <div className="bg-[#181818] w-full sm:w-40 h-24 border-2 border-[#272727] lg:w-36 rounded-md sm:mr-2 mb-2 sm:mb-0 flex justify-center items-start flex-col px-5">
+              <p className="text-[#5c5c5c] text-sm sm:text-base">
+                {values.targetLabel}
+              </p>
+              <span className="text-base sm:text-lg">
+                {values[timeframe].target}
+              </span>
+            </div>
+            <div className="bg-[#181818] w-full sm:w-40 h-24 lg:w-36 border-2 border-[#272727] rounded-md flex justify-center items-start flex-col px-5">
+              <p className="text-[#5c5c5c] text-sm sm:text-base">
+                {values.valueLabel}
+              </p>
+              <span className="text-base sm:text-lg" style={{ color: color }}>
+                {values[timeframe].value}
+              </span>
+            </div>
           </div>
         </div>
       ) : (
@@ -104,6 +185,6 @@ const SingleGoalDisplay = ({ icon, title, color, values, index }) => {
           className=" py-2 px-4 w-full sm:w-auto text-sm rounded-md cursor-pointer text-[#101010] bg-green-primary"
         />
       </div>
-    </div>
+    </motion.div>
   );
 };
