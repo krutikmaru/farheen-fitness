@@ -97,12 +97,14 @@ const SingleGoalDisplay = ({
         >
           <FontAwesomeIcon icon={faEdit} className=" " />
         </Link>
-        <Link
-          to={`${navigateUrl}/add`}
-          className="w-[45%] sm:w-[70%] py-2 px-4 text-sm rounded-md cursor-pointer  text-[#101010] bg-green-primary flex justify-center items-center"
-        >
-          <FontAwesomeIcon icon={faPlus} />
-        </Link>
+        {values.isSet && (
+          <Link
+            to={`${navigateUrl}/add`}
+            className="w-[45%] sm:w-[70%] py-2 px-4 text-sm rounded-md cursor-pointer  text-[#101010] bg-green-primary flex justify-center items-center"
+          >
+            <FontAwesomeIcon icon={faPlus} />
+          </Link>
+        )}
       </div>
     </motion.div>
   );
