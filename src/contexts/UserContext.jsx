@@ -8,6 +8,7 @@ import {
   getFirestore,
 } from "firebase/firestore";
 import app from "../backend/Firebase/firebase";
+import { userTrackData } from "../utils/data/userTrack";
 
 const UserContext = createContext();
 
@@ -21,6 +22,7 @@ export const useUser = () => {
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [userTrack, setUserTrack] = useState(userTrackData);
 
   useEffect(() => {
     const auth = getAuth();
@@ -62,6 +64,8 @@ export const UserProvider = ({ children }) => {
   const value = {
     user,
     setUser,
+    userTrack,
+    setUserTrack,
   };
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

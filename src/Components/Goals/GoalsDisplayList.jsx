@@ -1,115 +1,22 @@
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRight,
+  faEdit,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useUser } from "../../contexts/UserContext";
+import { formatNumber } from "../../utils/functions/formatNumber";
+import { Link } from "react-router-dom";
 
 const GoalsDisplayList = () => {
-  const data = [
-    {
-      icon: "💧",
-      title: "Water",
-      color: "#6fc3ff",
-      values: {
-        isSet: true,
-        targetLabel: "Goal",
-        valueLabel: "Consumed",
-        Daily: {
-          target: "3 Liter",
-          value: "1.3 Liter",
-          progress: 40,
-        },
-        Monthly: {
-          target: "90 Liter",
-          value: "47 Liter",
-          progress: 40,
-        },
-        Yearly: {
-          target: "1080 Liter",
-          value: "568 Liter",
-          progress: 40,
-        },
-      },
-    },
-    {
-      icon: "🔥",
-      title: "Calories",
-      color: "#ffb02e",
-      values: {
-        isSet: true,
-        targetLabel: "Goal",
-        valueLabel: "Burnt",
-        Daily: {
-          target: "500 Cals",
-          value: "376 Cals",
-          progress: 75,
-        },
-        Monthly: {
-          target: "15K Cals",
-          value: "11.28K Cals",
-          progress: 75,
-        },
-        Yearly: {
-          target: " 180k Cals",
-          value: "134K Cals",
-          progress: 75,
-        },
-      },
-    },
-    {
-      icon: "💤",
-      title: "Sleep",
-      color: "#922eff",
-      values: {
-        isSet: true,
-        targetLabel: "Goal",
-        valueLabel: "Slept",
-        Daily: {
-          target: "7 Hours",
-          value: "6.5 Hours",
-          progress: 92,
-        },
-        Monthly: {
-          target: "210 Hours",
-          value: "195 Hours",
-          progress: 75,
-        },
-        Yearly: {
-          target: "2520 Hours",
-          value: "2280 Hours",
-          progress: 75,
-        },
-      },
-    },
-    {
-      icon: "👣",
-      title: "Steps",
-      color: "#6fff81",
-      values: {
-        isSet: false,
-        targetLabel: "Goal",
-        valueLabel: "Done",
-        Daily: {
-          target: null,
-          value: null,
-          progress: null,
-        },
-        Monthly: {
-          target: null,
-          value: null,
-          progress: null,
-        },
-        Yearly: {
-          target: null,
-          value: null,
-          progress: null,
-        },
-      },
-    },
-  ];
+  const { userTrack } = useUser();
+
   return (
     <div className="mt-5 grid grid-cols-1 xl:grid-cols-2 gap-4">
-      {data.map((d, index) => {
-        return <SingleGoalDisplay {...d} index={index} />;
+      {userTrack.map((data, index) => {
+        return <SingleGoalDisplay {...data} index={index} />;
       })}
     </div>
   );
@@ -117,22 +24,30 @@ const GoalsDisplayList = () => {
 
 export default GoalsDisplayList;
 
-const SingleGoalDisplay = ({ icon, title, color, values, index }) => {
+const SingleGoalDisplay = ({
+  icon,
+  title,
+  color,
+  navigateUrl,
+  values,
+  index,
+}) => {
   const timeframes = ["Daily", "Monthly", "Yearly"];
   const [timeframe, setTimeframe] = useState(timeframes[0]);
   return (
     <motion.div
-      initial={{ opacity: 0, x: 30 * (index + 1) }}
-      animate={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{
         duration: 0.6,
+        delay: 0.1 * index,
         ease: "easeInOut",
       }}
       className="w-full space-y-10 sm:space-y-0 sm:h-44 p-5 sm:py-0 rounded-md overflow-hidden bg-[#101010] border-2 border-[#272727] flex justify-start sm:justify-between items-center flex-col sm:flex-row"
     >
       <div className="w-[20%] h-full flex flex-col justify-center items-center">
         <span className="text-4xl">{icon}</span>
-        <h1 className="text-2xl mt-3">{title}</h1>
+        <h1 className="text-base mt-3">{title}</h1>
       </div>
       {values.isSet ? (
         <div className="w-full h-full sm:w-[60%] flex flex-col justify-center items-center">
@@ -160,7 +75,7 @@ const SingleGoalDisplay = ({ icon, title, color, values, index }) => {
                 {values.targetLabel}
               </p>
               <span className="text-base sm:text-lg">
-                {values[timeframe].target}
+                {formatNumber(values[timeframe].target)} {values.unit}
               </span>
             </div>
             <div className="bg-[#181818] w-full sm:w-40 h-24 lg:w-36 border-2 border-[#272727] rounded-md flex justify-center items-start flex-col px-5">
@@ -168,7 +83,7 @@ const SingleGoalDisplay = ({ icon, title, color, values, index }) => {
                 {values.valueLabel}
               </p>
               <span className="text-base sm:text-lg" style={{ color: color }}>
-                {values[timeframe].value}
+                {formatNumber(values[timeframe].value)} {values.unit}
               </span>
             </div>
           </div>
@@ -179,11 +94,19 @@ const SingleGoalDisplay = ({ icon, title, color, values, index }) => {
         </div>
       )}
 
-      <div className="w-full sm:w-[20%] h-full  flex justify-center items-center">
-        <FontAwesomeIcon
-          icon={faArrowRight}
-          className=" py-2 px-4 w-full sm:w-auto text-sm rounded-md cursor-pointer text-[#101010] bg-green-primary"
-        />
+      <div className="w-full sm:w-[20%]  h-full  flex sm:flex-col justify-evenly sm:justify-center items-end">
+        <Link
+          to={`${navigateUrl}/edit`}
+          className="w-[45%] sm:w-[70%] py-2 px-4 text-sm rounded-md cursor-pointer sm:mb-5 text-[#101010] bg-green-primary flex justify-center items-center"
+        >
+          <FontAwesomeIcon icon={faEdit} className=" " />
+        </Link>
+        <Link
+          to={`${navigateUrl}/add`}
+          className="w-[45%] sm:w-[70%] py-2 px-4 text-sm rounded-md cursor-pointer  text-[#101010] bg-green-primary flex justify-center items-center"
+        >
+          <FontAwesomeIcon icon={faPlus} />
+        </Link>
       </div>
     </motion.div>
   );
