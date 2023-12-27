@@ -2,6 +2,7 @@ import React from "react";
 import { CircularProgress } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useUser } from "../../contexts/UserContext";
+import { getProgress } from "../../utils/functions/getProgress";
 const ProgressPanel = () => {
   const { userTrack } = useUser();
   return (
@@ -45,7 +46,7 @@ const ProgressBox = ({ title, icon, color, values, index }) => {
       <div className=" w-[50%] h-full flex justify-center items-center relative">
         <CircularProgress
           size={130}
-          value={values["Daily"].progress}
+          value={getProgress(values["Daily"].value, values["Daily"].target)}
           trackColor="#1f1f1f"
           capIsRound
           thickness={7}
@@ -55,7 +56,7 @@ const ProgressBox = ({ title, icon, color, values, index }) => {
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xl"
           style={{ color: color }}
         >
-          {values["Daily"].progress}%
+          {getProgress(values["Daily"].value, values["Daily"].target)}%
         </span>
       </div>
     </motion.div>

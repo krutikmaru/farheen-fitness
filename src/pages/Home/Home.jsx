@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useUser } from "../../contexts/UserContext";
 import ProgressPanel from "../../Components/Home/ProgressPanel";
+import { useApplicationManager } from "../../contexts/ApplicationContext";
+import { menubar } from "../../utils/data/menubar";
 
 const Home = () => {
   const { user } = useUser();
+  const { setSelectedMenubarItemId } = useApplicationManager();
+
+  useEffect(() => {
+    setSelectedMenubarItemId(menubar.forYou[0].id);
+  }, [setSelectedMenubarItemId]);
 
   return (
     <div className=" flex w-full min-h-screen flex-col  p-8">

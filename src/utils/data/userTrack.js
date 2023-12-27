@@ -8,7 +8,7 @@ export const userTrackData = [
       isSet: true,
       targetLabel: "Goal",
       valueLabel: "Consumed",
-      unit: "Liter",
+      unit: "Liters",
       Daily: {
         target: 3,
         value: 1.36,
@@ -77,6 +77,33 @@ export const userTrackData = [
         target: 2520,
         value: 2280,
         progress: 75,
+      },
+    },
+  },
+  {
+    icon: "👣",
+    title: "Steps",
+    color: "#6fff81",
+    navigateUrl: "/goals/steps",
+    values: {
+      isSet: false,
+      targetLabel: "Goal",
+      valueLabel: "Done",
+      unit: "Steps",
+      Daily: {
+        target: null,
+        value: null,
+        progress: null,
+      },
+      Monthly: {
+        target: null,
+        value: null,
+        progress: null,
+      },
+      Yearly: {
+        target: null,
+        value: null,
+        progress: null,
       },
     },
   },
