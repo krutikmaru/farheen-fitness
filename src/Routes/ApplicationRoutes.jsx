@@ -5,6 +5,7 @@ import Home from "../pages/Home/Home";
 import Authentication from "../pages/Authentication/Authentication";
 import Layout from "../Components/Layout/Layout";
 import { Toaster } from "react-hot-toast";
+import Goals from "../pages/Goals/Goals";
 
 const RoutesWrapper = () => {
   const { user } = useUser();
@@ -24,12 +25,14 @@ const RoutesWrapper = () => {
         {user ? (
           <>
             <Route path="/" element={<Home />} />
+            <Route path="/goals" element={<Goals />} />
             <Route path="/auth" element={<Navigate to="/" replace />} />
           </>
         ) : (
           <>
             <Route path="/auth" element={<Authentication />} />
             <Route path="/" element={<Navigate to="/auth" replace />} />
+            <Route path="/goals" element={<Navigate to="/auth" replace />} />
           </>
         )}
       </Routes>
