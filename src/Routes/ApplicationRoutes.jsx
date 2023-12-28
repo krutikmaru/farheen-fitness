@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import Goals from "../pages/Goals/Goals";
 import AddToGoal from "../pages/Goals/AddToGoal";
 import EditGoal from "../pages/Goals/EditGoal";
+import Calendar from "../pages/Calendar/Calendar";
 
 const RoutesWrapper = () => {
   const { user } = useUser();
@@ -27,6 +28,7 @@ const RoutesWrapper = () => {
         {user ? (
           <>
             <Route path="/" element={<Home />} />
+            <Route path="/calendar" element={<Calendar />} />
             <Route path="/goals" element={<Goals />} />
             <Route path="/goals/:type/add" element={<AddToGoal />} />
             <Route path="/goals/:type/edit" element={<EditGoal />} />
@@ -45,6 +47,7 @@ const RoutesWrapper = () => {
               path="/goals/:type/edit"
               element={<Navigate to="/auth" replace />}
             />
+            <Route path="/calendar" element={<Navigate to="/auth" replace />} />
           </>
         )}
       </Routes>

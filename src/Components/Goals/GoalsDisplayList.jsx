@@ -39,7 +39,7 @@ const SingleGoalDisplay = ({
         delay: 0.1 * index,
         ease: "easeInOut",
       }}
-      className="w-full space-y-10 sm:space-y-0 sm:h-44 p-5 sm:py-0 rounded-md overflow-hidden bg-[#101010] border-2 border-[#272727] flex justify-start sm:justify-between items-center flex-col sm:flex-row"
+      className="w-full space-y-10 sm:space-y-0 sm:h-44 p-5 sm:py-0 rounded-md overflow-hidden bg-[#101010] border-2 border-dashed border-[#272727] flex justify-start sm:justify-between items-center flex-col sm:flex-row"
     >
       <div className="w-[20%] h-full flex flex-col justify-center items-center">
         <span className="text-4xl">{icon}</span>

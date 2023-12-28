@@ -73,13 +73,13 @@ const AddToGoal = () => {
               type="number"
               value={hour}
               onChange={(e) => handleHourChange(e.target.value)}
-              className="bg-[#292929] rounded-md p-4 text-xl outline-none border-2 border-[#363636] mr-4"
+              className="bg-[#292929] w-[40%] rounded-md p-4 text-xl outline-none border-2 border-[#363636] mr-4"
             />
             <input
               type="number"
               value={minute}
               onChange={(e) => handleMinuteChange(e.target.value)}
-              className="bg-[#292929] rounded-md p-4 text-xl outline-none border-2 border-[#363636]"
+              className="bg-[#292929] w-[40%] rounded-md p-4 text-xl outline-none border-2 border-[#363636]"
             />
           </div>
         </div>
