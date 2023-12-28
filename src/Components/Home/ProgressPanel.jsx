@@ -6,13 +6,16 @@ import { getProgress } from "../../utils/functions/getProgress";
 const ProgressPanel = () => {
   const { userTrack } = useUser();
   return (
-    <div className="mt-5 flex justify-start items-center overflow-x-scroll scrollbar-hidden">
-      {userTrack.map((data, index) => {
-        if (data.values.isSet) {
-          return <ProgressBox {...data} index={index} />;
-        }
-        return null;
-      })}
+    <div className=" mt-5 relative">
+      <div className="flex justify-start items-center overflow-x-scroll scrollbar-hidden px-5">
+        <SideStrips />
+        {userTrack.map((data, index) => {
+          if (data.values.isSet) {
+            return <ProgressBox {...data} index={index} />;
+          }
+          return null;
+        })}
+      </div>
     </div>
   );
 };
@@ -63,3 +66,12 @@ const ProgressBox = ({ title, icon, color, values, index }) => {
   );
 };
 export default ProgressPanel;
+
+const SideStrips = () => {
+  return (
+    <>
+      <div className="absolute w-4 h-full z-10 bg-gradient-to-r from-black-main top-0 left-0"></div>
+      <div className="absolute w-4 h-full z-10 bg-gradient-to-l from-black-main top-0 right-0"></div>
+    </>
+  );
+};

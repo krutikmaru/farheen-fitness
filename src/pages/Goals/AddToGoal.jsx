@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
 import toast from "react-hot-toast";
+import { addWithPrecision } from "../../utils/functions/addWithPrecision";
 
 const AddToGoal = () => {
   const [value, setValue] = useState(0);
+  const [hour, setHour] = useState(new Date().getHours());
+  const [minute, setMinute] = useState(new Date().getMinutes());
+
   const { type } = useParams();
   const { userTrack, setUserTrack } = useUser();
   const navigate = useNavigate();
@@ -13,11 +17,39 @@ const AddToGoal = () => {
     (track) => track.title.toLowerCase() === type.toLowerCase()
   )[0];
 
+  const handleHourChange = (hr) => {
+    if (typeof Number(hr) === "number") {
+      if (hr >= 0 && hr <= 23) {
+        setHour(hr);
+      }
+    }
+  };
+
+  const handleMinuteChange = (min) => {
+    if (typeof Number(min) === "number") {
+      if (min >= 0 && min <= 59) {
+        setMinute(min);
+      }
+    }
+  };
+
   const handleAdd = () => {
     let userTrackCopy = [...userTrack];
     userTrackCopy = userTrackCopy.map((copy) => {
       if (copy.title === data.title) {
-        copy.values["Daily"].value += Number(value);
+        copy.values["Daily"].value = addWithPrecision(
+          Number(value),
+          copy.values["Daily"].value
+        );
+        copy.values["Monthly"].value = addWithPrecision(
+          Number(value),
+          copy.values["Monthly"].value
+        );
+        copy.values["Yearly"].value = addWithPrecision(
+          Number(value),
+          copy.values["Yearly"].value
+        );
+
         return copy;
       }
       return copy;
@@ -33,20 +65,20 @@ const AddToGoal = () => {
           {data.title} {data.icon}
         </span>
       </h1>
-      <div className=" h-96 bg-[#181818] rounded-md border-2 border-[#272727] mt-10 flex flex-col p-8">
+      <div className=" min-h-[380px] bg-[#181818] rounded-md border-2 border-[#272727] mt-10 flex flex-col p-8">
         <div>
           <p className="text-[#747474] text-xl font-semibold mb-3">Time</p>
           <div>
             <input
               type="number"
-              max={23}
-              min={0}
+              value={hour}
+              onChange={(e) => handleHourChange(e.target.value)}
               className="bg-[#292929] rounded-md p-4 text-xl outline-none border-2 border-[#363636] mr-4"
             />
             <input
               type="number"
-              min={0}
-              max={59}
+              value={minute}
+              onChange={(e) => handleMinuteChange(e.target.value)}
               className="bg-[#292929] rounded-md p-4 text-xl outline-none border-2 border-[#363636]"
             />
           </div>
