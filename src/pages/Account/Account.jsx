@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useUser } from "../../contexts/UserContext";
 import Avatar from "../../Components/Account/Avatar";
 import Details from "../../Components/Account/Details";
+import { useApplicationManager } from "../../contexts/ApplicationContext";
 
 const Account = () => {
   const { user } = useUser();
+  const { setSelectedMenubarItemId } = useApplicationManager();
+  useEffect(() => {
+    setSelectedMenubarItemId("3cbd85224a4c490e91ac180c4e3e0db5");
+  }, [setSelectedMenubarItemId]);
   return (
     <div className=" flex w-full min-h-screen flex-col  p-8">
       {/* Header */}

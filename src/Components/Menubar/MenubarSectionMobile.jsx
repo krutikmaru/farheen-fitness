@@ -41,12 +41,8 @@ const MenubarSectionMobile = ({ tag, data }) => {
                 ease: "easeOut",
               }}
               onClick={() => handleItemClick(item.id, item.navigate, item.type)}
-              className="border-l-4 cursor-pointer border-black-main mb-6 text-2xl  font-medium h-20 text-gray-300 w-full flex justify-start items-center px-4 "
+              className="cursor-pointer  mb-6 text-2xl  font-medium h-20 text-gray-300 w-full flex justify-start items-center px-4 "
               style={{
-                borderLeft:
-                  item.id === selectedMenubarItemId
-                    ? "8px solid #deff10"
-                    : "8px solid #0a0a0a",
                 color:
                   item.id === selectedMenubarItemId ? "#deff10" : "#a9a9a9",
               }}
@@ -56,7 +52,7 @@ const MenubarSectionMobile = ({ tag, data }) => {
                 className="mr-10 text-xl "
                 style={{
                   color:
-                    item.id === selectedMenubarItemId ? "#deff10" : "#313131",
+                    item.id === selectedMenubarItemId ? "#deff10" : "#898989",
                 }}
               />
               <h1 className="">{item.title}</h1>

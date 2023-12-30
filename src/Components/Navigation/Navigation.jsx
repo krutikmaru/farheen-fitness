@@ -2,6 +2,7 @@ import { faBars, faChartGantt, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useApplicationManager } from "../../contexts/ApplicationContext";
+import { Link } from "react-router-dom";
 const Navigation = () => {
   const { isSmallScreen, isMobileMenuActive, setIsMobileMenuActive } =
     useApplicationManager();
@@ -15,13 +16,15 @@ const Navigation = () => {
         />
       </div>
       <div className="h-14 flex justify-center items-center ">
-        <div className="w-9 h-9 rounded-full  bg-green-primary cursor-pointer relative overflow-hidden">
-          <img
-            src="https://carzilla.m-fractal.com/files/tinn.JPG"
-            className="absolute object-cover top-0 left-0 w-full h-full"
-            alt="MEERA"
-          />
-        </div>
+        <Link to="/account">
+          <div className="w-9 h-9 rounded-full  bg-green-primary cursor-pointer relative overflow-hidden">
+            <img
+              src="https://carzilla.m-fractal.com/files/tinn.JPG"
+              className="absolute object-cover top-0 left-0 w-full h-full"
+              alt="MEERA"
+            />
+          </div>
+        </Link>
         {isSmallScreen && (
           <FontAwesomeIcon
             icon={isMobileMenuActive ? faX : faBars}

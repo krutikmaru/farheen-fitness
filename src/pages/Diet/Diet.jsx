@@ -25,7 +25,7 @@ const Diet = () => {
   return (
     <div className=" flex w-full min-h-screen flex-col  p-8">
       <h1 className="text-2xl">
-        Get Personalised <span className="text-green-primary">Diets 🥗</span>
+        Get AI Personalised <span className="text-green-primary">Diets 🥗</span>
       </h1>
       <div className="w-full mt-5">
         <p className="text-[#535353] text-sm font-medium mb-1">Prompt</p>

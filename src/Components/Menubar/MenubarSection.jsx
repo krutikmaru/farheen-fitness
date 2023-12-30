@@ -71,6 +71,8 @@ const ConfirmLogout = () => {
       setUser(null);
     } catch (e) {
       console.log(e);
+    } finally {
+      deactivatePopupCenter();
     }
   };
   return (
