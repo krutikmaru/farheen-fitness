@@ -3,6 +3,7 @@ import { useUser } from "../../contexts/UserContext";
 import ProgressPanel from "../../Components/Home/ProgressPanel";
 import { useApplicationManager } from "../../contexts/ApplicationContext";
 import { menubar } from "../../utils/data/menubar";
+import WorkoutsPanel from "../../Components/Home/WorkoutsPanel";
 
 const Home = () => {
   const { user } = useUser();
@@ -18,6 +19,7 @@ const Home = () => {
         Welcome <span className="text-green-primary">{user.name}</span>!
       </h1>
       <ProgressPanel />
+      <WorkoutsPanel />
     </div>
   );
 };

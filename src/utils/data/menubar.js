@@ -2,6 +2,7 @@ import {
   faBolt,
   faBullseye,
   faCalendarDays,
+  faCarrot,
   faHome,
   faRightFromBracket,
   faUser,
@@ -32,6 +33,12 @@ export const menubar = {
       icon: faBolt,
       id: "5fa9138bbfeb44a8a1f8287825247db0",
       navigate: "/workouts",
+    },
+    {
+      title: "Diets",
+      icon: faCarrot,
+      id: "cf75b6446a444111acb071259e93cf47",
+      navigate: "/diet",
     },
   ],
   account: [
