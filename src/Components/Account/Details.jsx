@@ -4,12 +4,21 @@ import React, { useState } from "react";
 import { useApplicationManager } from "../../contexts/ApplicationContext";
 import { useUser } from "../../contexts/UserContext";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
 
 const Details = ({ name, email }) => {
   const { activatePopupCenter } = useApplicationManager();
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: 0.5,
+        delay: 0.2,
+        ease: "easeInOut",
+      }}
+    >
       <span className="text-[#979797] text-xl ml-2 ">Account Details</span>
 
       <div className="w-full min-h-[200px] mt-2 flex rounded-md p-5 flex-col space-y-7 bg-[#101010] border-[1px] border-[#1a1a1a]">
@@ -42,7 +51,7 @@ const Details = ({ name, email }) => {
           />
         </div>
       </div>
-    </>
+    </motion.div>
   );
 };
 
