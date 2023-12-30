@@ -1,21 +1,18 @@
 import React, { useEffect } from "react";
-import GoalsDisplayList from "../../Components/Goals/GoalsDisplayList";
 import { useApplicationManager } from "../../contexts/ApplicationContext";
 
-const Goals = () => {
+const Workouts = () => {
   const { setSelectedMenubarItemId } = useApplicationManager();
   useEffect(() => {
-    setSelectedMenubarItemId("24d707543a344bbda65e8157524b2f1b");
+    setSelectedMenubarItemId("5fa9138bbfeb44a8a1f8287825247db0");
   }, [setSelectedMenubarItemId]);
-
   return (
     <div className=" flex w-full min-h-screen flex-col  p-8">
       <h1 className="text-2xl">
-        Your <span className="text-green-primary">Goals 🎯</span>
-        <GoalsDisplayList />
+        <span className="text-green-primary">Workouts 💪🏼</span>
       </h1>
     </div>
   );
 };
 
-export default Goals;
+export default Workouts;

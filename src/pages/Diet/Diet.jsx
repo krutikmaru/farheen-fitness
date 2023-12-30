@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import PuffLoader from "react-spinners/PuffLoader";
+import { useApplicationManager } from "../../contexts/ApplicationContext";
 
 const Diet = () => {
   const [requestSent, setIsRequestSent] = useState(false);
   const [prompt, setPromot] = useState("");
   const [response, setResponse] = useState(null);
+
+  const { setSelectedMenubarItemId } = useApplicationManager();
+  useEffect(() => {
+    setSelectedMenubarItemId("cf75b6446a444111acb071259e93cf47");
+  }, [setSelectedMenubarItemId]);
 
   const sendRequest = () => {
     setIsRequestSent(true);

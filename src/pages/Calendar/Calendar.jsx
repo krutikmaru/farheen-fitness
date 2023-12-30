@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SingleDayDatePicker } from "../../Components/Calendar/SingleDayDatePicker";
 import { RangeDatePicker } from "../../Components/Calendar/RangeDatePicker";
+import { useApplicationManager } from "../../contexts/ApplicationContext";
 
 const Calendar = () => {
   const timeframes = ["Single Day", "Range"];
@@ -8,6 +9,11 @@ const Calendar = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
+
+  const { setSelectedMenubarItemId } = useApplicationManager();
+  useEffect(() => {
+    setSelectedMenubarItemId("55e6ca900aaf432a8dea13820a36ddb1");
+  }, [setSelectedMenubarItemId]);
 
   return (
     <div className=" flex w-full min-h-screen flex-col  p-8">

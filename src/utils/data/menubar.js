@@ -25,7 +25,7 @@ export const menubar = {
     {
       title: "Calendar",
       icon: faCalendarDays,
-      id: "36766216e95548eb9c4ef41bd9f8534c ",
+      id: "55e6ca900aaf432a8dea13820a36ddb1",
       navigate: "/calendar",
     },
     {
