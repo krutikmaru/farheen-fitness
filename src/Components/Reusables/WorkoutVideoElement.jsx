@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const WorkoutVideoElement = ({ workout, index }) => {
   return (
@@ -8,7 +9,7 @@ const WorkoutVideoElement = ({ workout, index }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{
         duration: 0.5,
-        ease: "easeOut",
+        ease: "easeInOut",
         delay: index * 0.2,
       }}
       key={workout.id}
@@ -28,9 +29,12 @@ const WorkoutVideoElement = ({ workout, index }) => {
         <p className="text-xs text-[#707070]">Category: {workout.category}</p>
       </div>
       <div className="h-full w-full lg:w-[20%] mt-5 lg:mt-0  flex justify-center items-center">
-        <button className="w-full py-2 px-4 text-sm rounded-md font-semibold text-[#101010] bg-green-primary flex justify-center items-center">
+        <Link
+          to={`/workouts/${workout.id}`}
+          className="w-full py-2 px-4 text-sm rounded-md font-semibold text-[#101010] bg-green-primary flex justify-center items-center"
+        >
           Watch
-        </button>
+        </Link>
       </div>
     </motion.div>
   );

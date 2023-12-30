@@ -11,6 +11,7 @@ import EditGoal from "../pages/Goals/EditGoal";
 import Calendar from "../pages/Calendar/Calendar";
 import Diet from "../pages/Diet/Diet";
 import Workouts from "../pages/Workouts/Workouts";
+import WatchWorkout from "../pages/Workouts/WatchWorkout";
 
 const RoutesWrapper = () => {
   const { user } = useUser();
@@ -34,6 +35,7 @@ const RoutesWrapper = () => {
             <Route path="/diet" element={<Diet />} />
             <Route path="/goals" element={<Goals />} />
             <Route path="/workouts" element={<Workouts />} />
+            <Route path="/workouts/:videoId" element={<WatchWorkout />} />
             <Route path="/goals/:type/add" element={<AddToGoal />} />
             <Route path="/goals/:type/edit" element={<EditGoal />} />
             <Route path="/auth" element={<Navigate to="/" replace />} />
@@ -54,6 +56,10 @@ const RoutesWrapper = () => {
             <Route path="/calendar" element={<Navigate to="/auth" replace />} />
             <Route path="/diet" element={<Navigate to="/auth" replace />} />
             <Route path="/workouts" element={<Navigate to="/auth" replace />} />
+            <Route
+              path="/workouts/:videoId"
+              element={<Navigate to="/auth" replace />}
+            />
           </>
         )}
       </Routes>

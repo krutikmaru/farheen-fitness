@@ -1,5 +1,6 @@
 import React from "react";
 import WorkoutVideoElement from "../Reusables/WorkoutVideoElement";
+import { Link } from "react-router-dom";
 
 const WorkoutsPanel = () => {
   const workoutVideos = [
@@ -35,9 +36,12 @@ const WorkoutsPanel = () => {
         <div className="bg-[#101010] min-h-[200px] p-5 mt-4 w-full flex flex-col space-y-4 rounded-md border-[1px] border-[#1a1a1a]">
           <div className="w-full flex items-center justify-between">
             <span className="text-[#707070]">Suggested for you</span>
-            <span className=" text-sm cursor-pointer underline text-[#707070]">
+            <Link
+              to="/workouts"
+              className=" text-sm cursor-pointer underline text-[#707070]"
+            >
               View All
-            </span>
+            </Link>
           </div>
           {workoutVideos.map((workout, index) => {
             return <WorkoutVideoElement {...{ workout, index }} />;
