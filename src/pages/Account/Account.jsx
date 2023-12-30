@@ -16,7 +16,7 @@ const Account = () => {
       {/* Avatar */}
       <div className="mt-10">
         <Avatar
-          image="https://carzilla.m-fractal.com/files/tinn.JPGx"
+          image="https://carzilla.m-fractal.com/files/tinn.JPG"
           name={user.name}
         />
       </div>
