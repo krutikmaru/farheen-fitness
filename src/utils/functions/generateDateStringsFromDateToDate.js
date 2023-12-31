@@ -2,6 +2,7 @@ export function generateDateStringsFromDateToDate(
   startDate,
   endDate = new Date()
 ) {
+  // Convert the start and end dates to Date objects if they are in string format
   const start = new Date(
     `${startDate.substr(0, 4)}-${startDate.substr(4, 2)}-${startDate.substr(
       6,
@@ -9,6 +10,9 @@ export function generateDateStringsFromDateToDate(
     )}`
   );
   const end = new Date(endDate);
+
+  // Set the time of 'end' to 23:59:59 to include the entire day
+  end.setHours(23, 59, 59, 999);
 
   const dateStrings = [];
   let currentDate = start;
@@ -20,6 +24,7 @@ export function generateDateStringsFromDateToDate(
 
     dateStrings.push(`${year}${month}${day}`);
 
+    // Move to the next day
     currentDate.setDate(currentDate.getDate() + 1);
   }
 

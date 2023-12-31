@@ -5,6 +5,7 @@ import { Legend, Line, LineChart, Tooltip, XAxis } from "recharts";
 import { useUser } from "../../contexts/UserContext";
 
 const SummarySingle = ({ summaryData }) => {
+  console.log(summaryData);
   const { goals } = useUser();
   let data = [];
   for (const property in summaryData.track) {

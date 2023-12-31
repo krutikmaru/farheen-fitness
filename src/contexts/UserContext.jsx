@@ -52,8 +52,6 @@ export const UserProvider = ({ children }) => {
               const userDocSnapshot = querySnapshot.docs[0];
               const userData = userDocSnapshot.data();
               setUser(userData);
-              console.log("Fetching user track", userTrack2);
-              console.log("Today", typeof Number(today));
               const todayDocumentExists = userTrack2.find(
                 (track) => track.dateId === today
               );
@@ -89,7 +87,6 @@ export const UserProvider = ({ children }) => {
                     };
                   });
                   setUserTrack2([...userTrack2, ...missingDays]);
-                  console.log([...userTrack2, ...missingDays]);
                 }
               }
 
