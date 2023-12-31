@@ -19,7 +19,7 @@ const Navigation = () => {
         <Link to="/account">
           <div className="w-9 h-9 rounded-full  bg-green-primary cursor-pointer relative overflow-hidden">
             <img
-              src="https://carzilla.m-fractal.com/files/tinn.JPG"
+              src="https://carzilla.m-fractal.com/files/meeraaa.jpg"
               className="absolute object-cover top-0 left-0 w-full h-full"
               alt="MEERA"
             />

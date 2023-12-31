@@ -1,5 +1,7 @@
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useUser } from "../../contexts/UserContext";
+import { getDateObjectFromString } from "../../utils/functions/getDateObjectFromString";
 
 export const RangeDatePicker = ({
   fromDate,
@@ -7,6 +9,8 @@ export const RangeDatePicker = ({
   setFromDate,
   setToDate,
 }) => {
+  const { userTrack2 } = useUser();
+
   return (
     <div className="flex flex-col space-y-4 items-center justify-center">
       <div>
@@ -15,6 +19,10 @@ export const RangeDatePicker = ({
           className="text-[#757575] outline-none p-5 rounded-md bg-[#101010] border-2 border-[#272727]"
           placeholderText="From Date"
           selected={fromDate}
+          minDate={getDateObjectFromString(String(userTrack2[0].dateId))}
+          maxDate={getDateObjectFromString(
+            String(userTrack2[userTrack2.length - 1].dateId)
+          )}
           onChange={(date) => setFromDate(date)}
         />
       </div>
@@ -25,6 +33,9 @@ export const RangeDatePicker = ({
           placeholderText="To Date"
           selected={toDate}
           minDate={fromDate}
+          maxDate={getDateObjectFromString(
+            String(userTrack2[userTrack2.length - 1].dateId)
+          )}
           onChange={(date) => setToDate(date)}
         />
       </div>

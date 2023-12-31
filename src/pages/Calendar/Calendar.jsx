@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { SingleDayDatePicker } from "../../Components/Calendar/SingleDayDatePicker";
 import { RangeDatePicker } from "../../Components/Calendar/RangeDatePicker";
 import { useApplicationManager } from "../../contexts/ApplicationContext";
+import Summary from "../../Components/Calendar/Summary";
+import { useUser } from "../../contexts/UserContext";
+import { formatDateToYYYYMMDD } from "../../utils/functions/formatToYYYYMMDD";
 
 const Calendar = () => {
   const timeframes = ["Single Day", "Range"];
@@ -9,6 +12,19 @@ const Calendar = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
+
+  const { userTrack2 } = useUser();
+  const summaryData =
+    timeframe === "Single Day"
+      ? userTrack2.find(
+          (userTrack) =>
+            String(userTrack.dateId) === formatDateToYYYYMMDD(startDate)
+        )
+      : userTrack2.filter(
+          (userTrack) =>
+            userTrack.dateId >= formatDateToYYYYMMDD(fromDate) &&
+            userTrack.dateId <= formatDateToYYYYMMDD(toDate)
+        );
 
   const { setSelectedMenubarItemId } = useApplicationManager();
   useEffect(() => {
@@ -55,6 +71,9 @@ const Calendar = () => {
             setToDate={setToDate}
           />
         )}
+      </div>
+      <div>
+        <Summary {...{ timeframe, summaryData }} />
       </div>
     </div>
   );

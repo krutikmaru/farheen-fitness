@@ -1,7 +1,11 @@
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useUser } from "../../contexts/UserContext";
+import { getDateObjectFromString } from "../../utils/functions/getDateObjectFromString";
 
 export const SingleDayDatePicker = ({ startDate, setStartDate }) => {
+  const { userTrack2 } = useUser();
+
   return (
     <div className="flex flex-col  items-center justify-center">
       <div>
@@ -13,6 +17,10 @@ export const SingleDayDatePicker = ({ startDate, setStartDate }) => {
           placeholderText="From Date"
           selected={startDate}
           onChange={(date) => setStartDate(date)}
+          minDate={getDateObjectFromString(String(userTrack2[0].dateId))}
+          maxDate={getDateObjectFromString(
+            String(userTrack2[userTrack2.length - 1].dateId)
+          )}
         />
       </div>
     </div>

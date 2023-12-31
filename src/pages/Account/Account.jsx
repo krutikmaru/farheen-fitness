@@ -21,10 +21,11 @@ const Account = () => {
       {/* Avatar */}
       <div className="mt-10">
         <Avatar
-          image="https://carzilla.m-fractal.com/files/tinn.JPG"
+          image="https://carzilla.m-fractal.com/files/meeraaa.jpg"
           name={user.name}
         />
       </div>
+      {/* Details  */}
       <div className="mt-10">
         <Details name={user.name} email={user.email} />
       </div>
