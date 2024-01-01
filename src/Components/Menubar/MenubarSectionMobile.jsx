@@ -34,6 +34,7 @@ const MenubarSectionMobile = ({ tag, data }) => {
         {data.map((item, index) => {
           return (
             <motion.div
+              key={item.id}
               initial={{ opacity: 0, x: -30 * (index + 1) }}
               animate={{ opacity: 1, x: 0 }}
               transition={{

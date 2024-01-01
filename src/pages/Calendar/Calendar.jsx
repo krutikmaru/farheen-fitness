@@ -13,14 +13,14 @@ const Calendar = () => {
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
 
-  const { userTrack2 } = useUser();
+  const { userTrack } = useUser();
   const summaryData =
     timeframe === "Single Day"
-      ? userTrack2.find(
+      ? userTrack.find(
           (userTrack) =>
             String(userTrack.dateId) === formatDateToYYYYMMDD(startDate)
         )
-      : userTrack2.filter(
+      : userTrack.filter(
           (userTrack) =>
             userTrack.dateId >= formatDateToYYYYMMDD(fromDate) &&
             userTrack.dateId <= formatDateToYYYYMMDD(toDate)
@@ -43,12 +43,16 @@ const Calendar = () => {
         {timeframes.map((tf) => {
           if (tf === timeframe)
             return (
-              <span className="border-[1px] border-green-primary bg-green-primary text-black-main rounded-xl px-4 py-1 cursor-pointer">
+              <span
+                key={tf}
+                className="border-[1px] border-green-primary bg-green-primary text-black-main rounded-xl px-4 py-1 cursor-pointer"
+              >
                 {tf}
               </span>
             );
           return (
             <span
+              key={tf}
               onClick={() => setTimeframe(tf)}
               className="border-[1px] border-green-primary rounded-xl px-4 py-1 cursor-pointer"
             >

@@ -44,7 +44,7 @@ const WorkoutsPanel = () => {
             </Link>
           </div>
           {workoutVideos.map((workout, index) => {
-            return <WorkoutVideoElement {...{ workout, index }} />;
+            return <WorkoutVideoElement key={index} {...{ workout, index }} />;
           })}
         </div>
       </div>

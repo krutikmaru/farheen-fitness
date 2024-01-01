@@ -7,11 +7,11 @@ import { formatNumber } from "../../utils/functions/formatNumber";
 import { Link } from "react-router-dom";
 
 const GoalsDisplayList = () => {
-  const { userTrack } = useUser();
+  const { goals } = useUser();
 
   return (
     <div className="mt-5 grid grid-cols-1 xl:grid-cols-2 gap-4">
-      {userTrack.map((data, index) => {
+      {goals.map((data, index) => {
         return <SingleGoalDisplay {...data} index={index} />;
       })}
     </div>
@@ -21,14 +21,22 @@ const GoalsDisplayList = () => {
 export default GoalsDisplayList;
 
 const SingleGoalDisplay = ({
+  name,
   icon,
   title,
   color,
   navigateUrl,
-  values,
+  targetLabel,
+  valueLabel,
+  unit,
+  isSet,
+  daily,
+  monthly,
+  yearly,
   index,
 }) => {
   const timeframes = ["Daily", "Monthly", "Yearly"];
+  const values = { daily, monthly, yearly };
   const [timeframe, setTimeframe] = useState(timeframes[0]);
   return (
     <motion.div
@@ -45,7 +53,7 @@ const SingleGoalDisplay = ({
         <span className="text-4xl">{icon}</span>
         <h1 className="text-base mt-3">{title}</h1>
       </div>
-      {values.isSet ? (
+      {isSet ? (
         <div className="w-full h-full sm:w-[60%] flex flex-col justify-center items-center">
           <div className="w-full flex justify-evenly items-center text-xs mb-3">
             {timeframes.map((tf) => {
@@ -68,18 +76,18 @@ const SingleGoalDisplay = ({
           <div className="w-full flex  items-center justify-center sm:justify-start flex-col sm:flex-row">
             <div className="bg-[#181818] w-full sm:w-40 h-24 border-2 border-[#272727] lg:w-36 rounded-md sm:mr-2 mb-2 sm:mb-0 flex justify-center items-start flex-col px-5">
               <p className="text-[#5c5c5c] text-sm sm:text-base">
-                {values.targetLabel}
+                {targetLabel}
               </p>
               <span className="text-base sm:text-lg">
-                {formatNumber(values[timeframe].target)} {values.unit}
+                {formatNumber(values[timeframe.toLowerCase()].target)} {unit}
               </span>
             </div>
             <div className="bg-[#181818] w-full sm:w-40 h-24 lg:w-36 border-2 border-[#272727] rounded-md flex justify-center items-start flex-col px-5">
               <p className="text-[#5c5c5c] text-sm sm:text-base">
-                {values.valueLabel}
+                {valueLabel}
               </p>
               <span className="text-base sm:text-lg" style={{ color: color }}>
-                {formatNumber(values[timeframe].value)} {values.unit}
+                {formatNumber(values[timeframe.toLowerCase()].value)} {unit}
               </span>
             </div>
           </div>
@@ -97,7 +105,7 @@ const SingleGoalDisplay = ({
         >
           <FontAwesomeIcon icon={faEdit} className=" " />
         </Link>
-        {values.isSet && (
+        {isSet && (
           <Link
             to={`${navigateUrl}/add`}
             className="w-[45%] sm:w-[70%] py-2 px-4 text-sm rounded-md cursor-pointer  text-[#101010] bg-green-primary flex justify-center items-center"

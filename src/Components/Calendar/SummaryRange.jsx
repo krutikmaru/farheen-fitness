@@ -4,6 +4,7 @@ import { faGhost } from "@fortawesome/free-solid-svg-icons";
 import { Legend, Line, LineChart, Tooltip, XAxis } from "recharts";
 import { useUser } from "../../contexts/UserContext";
 import { formatToDDMon } from "../../utils/functions/formatToDDMon";
+import { roundToTwoDecimalPlaces } from "../../utils/functions/roundToTwoDecimalPlace";
 
 const SummaryRange = ({ summaryData }) => {
   const { goals } = useUser();
@@ -23,8 +24,8 @@ const SummaryRange = ({ summaryData }) => {
     for (let j = 0; j < summaryData.length; j++) {
       let value = 0;
       if (summaryData[j].track[name].values.length !== 0) {
-        value = summaryData[j].track[name].values.reduce(
-          (acc, val) => acc + val
+        value = roundToTwoDecimalPlaces(
+          summaryData[j].track[name].values.reduce((acc, val) => acc + val)
         );
       }
       const date = formatToDDMon(String(summaryData[j].dateId));

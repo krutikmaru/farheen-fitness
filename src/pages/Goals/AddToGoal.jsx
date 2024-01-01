@@ -3,19 +3,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
 import toast from "react-hot-toast";
 import { addWithPrecision } from "../../utils/functions/addWithPrecision";
-
+import { sortTimeAndValues } from "../../utils/functions/sortTimeAndValues";
 const AddToGoal = () => {
   const [value, setValue] = useState(0);
   const [hour, setHour] = useState(new Date().getHours());
   const [minute, setMinute] = useState(new Date().getMinutes());
 
   const { type } = useParams();
-  const { userTrack, setUserTrack } = useUser();
+  const { goals, setGoals, today, userTrack, setUserTrack } = useUser();
   const navigate = useNavigate();
 
-  const data = userTrack.filter(
-    (track) => track.title.toLowerCase() === type.toLowerCase()
-  )[0];
+  const data = goals.filter((goal) => goal.name === type.toLowerCase())[0];
 
   const handleHourChange = (hr) => {
     if (typeof Number(hr) === "number") {
@@ -29,32 +27,52 @@ const AddToGoal = () => {
     if (typeof Number(min) === "number") {
       if (min >= 0 && min <= 59) {
         setMinute(min);
+        console.log(min);
       }
     }
   };
 
   const handleAdd = () => {
-    let userTrackCopy = [...userTrack];
-    userTrackCopy = userTrackCopy.map((copy) => {
+    let goalsCopy = [...goals];
+    goalsCopy = goalsCopy.map((copy) => {
       if (copy.title === data.title) {
-        copy.values["Daily"].value = addWithPrecision(
+        copy["daily"].value = addWithPrecision(
           Number(value),
-          copy.values["Daily"].value
+          copy["daily"].value
         );
-        copy.values["Monthly"].value = addWithPrecision(
+        copy["monthly"].value = addWithPrecision(
           Number(value),
-          copy.values["Monthly"].value
+          copy["monthly"].value
         );
-        copy.values["Yearly"].value = addWithPrecision(
+        copy["yearly"].value = addWithPrecision(
           Number(value),
-          copy.values["Yearly"].value
+          copy["yearly"].value
         );
 
         return copy;
       }
       return copy;
     });
+    setGoals(goalsCopy);
+
+    let userTrackCopy = [...userTrack];
+    console.log(hour, minute);
+    userTrackCopy = userTrackCopy.map((copy) => {
+      if (String(copy.dateId) === today) {
+        copy.track[type].values.push(value);
+        copy.track[type].time.push(
+          `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`
+        );
+
+        // We sort this array in case the user enters a time prior the current time for today. So a proper sequence of time is maintained in the time array. (This heavily reflects on the Line Chart in /calendar)
+        copy.track[type] = sortTimeAndValues(copy.track[type]);
+
+        return copy;
+      }
+      return copy;
+    });
     setUserTrack(userTrackCopy);
+
     toast.success(`Updated`);
     navigate("/");
   };
@@ -85,7 +103,7 @@ const AddToGoal = () => {
         </div>
         <div className="mt-6">
           <p className="text-[#747474] text-xl font-semibold mb-3">
-            {data.values.unit} {data.values.valueLabel}
+            {data.unit} {data.valueLabel}
           </p>
           <div>
             <input

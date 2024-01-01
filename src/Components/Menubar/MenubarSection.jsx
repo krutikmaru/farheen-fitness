@@ -31,6 +31,7 @@ const MenubarSection = ({ tag, data }) => {
         {data.map((item) => {
           return (
             <div
+              key={item.id}
               onClick={() => handleItemClick(item.id, item.navigate, item.type)}
               className="border-l-4 cursor-pointer border-black-main mb-4 text-sm h-11 text-gray-300 w-full flex justify-start items-center px-4 "
               style={{

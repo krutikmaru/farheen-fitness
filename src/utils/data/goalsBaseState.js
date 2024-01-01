@@ -8,16 +8,19 @@ export const goalsState = [
     targetLabel: "Goal",
     valueLabel: "Consumed",
     unit: "Liters",
-    isSet: false,
+    isSet: true,
     daily: {
+      name: "daily",
       target: 0,
       value: 0,
     },
     monthly: {
+      name: "monthly",
       target: 0,
       value: 0,
     },
     yearly: {
+      name: "yearly",
       target: 0,
       value: 0,
     },
@@ -33,14 +36,17 @@ export const goalsState = [
     unit: "Cals",
     isSet: true,
     daily: {
+      name: "daily",
       target: 0,
       value: 0,
     },
     monthly: {
+      name: "monthly",
       target: 0,
       value: 0,
     },
     yearly: {
+      name: "yearly",
       target: 0,
       value: 0,
     },
@@ -56,14 +62,17 @@ export const goalsState = [
     unit: "Hours",
     isSet: true,
     daily: {
+      name: "daily",
       target: 0,
       value: 0,
     },
     monthly: {
+      name: "monthly",
       target: 0,
       value: 0,
     },
     yearly: {
+      name: "yearly",
       target: 0,
       value: 0,
     },
@@ -79,14 +88,17 @@ export const goalsState = [
     unit: "Steps",
     isSet: false,
     daily: {
+      name: "daily",
       target: 0,
       value: 0,
     },
     monthly: {
+      name: "monthly",
       target: 0,
       value: 0,
     },
     yearly: {
+      name: "yearly",
       target: 0,
       value: 0,
     },

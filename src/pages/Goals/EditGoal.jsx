@@ -5,17 +5,15 @@ import toast from "react-hot-toast";
 import { roundToTwoDecimalPlaces } from "../../utils/functions/roundToTwoDecimalPlace";
 
 const EditGoal = () => {
-  const { userTrack, setUserTrack } = useUser();
+  const { goals, setGoals } = useUser();
   const { type } = useParams();
   const navigate = useNavigate();
 
-  const data = userTrack.filter(
-    (track) => track.title.toLowerCase() === type.toLowerCase()
-  )[0];
+  const data = goals.filter((goal) => goal.name === type.toLowerCase())[0];
 
-  const [daily, setDaily] = useState(data.values["Daily"].target);
-  const [monthly, setMonthly] = useState(data.values["Monthly"].target);
-  const [yearly, setYearly] = useState(data.values["Yearly"].target);
+  const [daily, setDaily] = useState(data["daily"].target);
+  const [monthly, setMonthly] = useState(data["monthly"].target);
+  const [yearly, setYearly] = useState(data["yearly"].target);
 
   const handleValueChange = (value, type) => {
     value = Number(value);
@@ -36,21 +34,21 @@ const EditGoal = () => {
     }
   };
   const handleUpdate = () => {
-    let userTrackCopy = [...userTrack];
-    userTrackCopy = userTrackCopy.map((copy) => {
+    let goalsCopy = [...goals];
+    goalsCopy = goalsCopy.map((copy) => {
       if (copy.title === data.title) {
-        copy.values["Daily"].target = daily;
-        copy.values["Monthly"].target = monthly;
-        copy.values["Yearly"].target = yearly;
-        if (!copy.values.isSet) {
+        copy["daily"].target = daily;
+        copy["monthly"].target = monthly;
+        copy["yearly"].target = yearly;
+        if (!copy.isSet) {
           // For goals that have not been set
-          copy.values.isSet = true;
+          copy.isSet = true;
         }
         return copy;
       }
       return copy;
     });
-    setUserTrack(userTrackCopy);
+    setGoals(goalsCopy);
     toast.success(`Updated`);
     navigate("/goals");
   };
@@ -99,7 +97,7 @@ const EditGoal = () => {
             onClick={handleUpdate}
             className="py-2 px-8 bg-green-primary text-black-main font-medium rounded-md"
           >
-            {data.values.isSet ? "Update" : "Set"}
+            {data.isSet ? "Update" : "Set"}
           </button>
         </div>
       </div>

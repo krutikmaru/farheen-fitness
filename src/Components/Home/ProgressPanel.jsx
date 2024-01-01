@@ -4,14 +4,14 @@ import { motion } from "framer-motion";
 import { useUser } from "../../contexts/UserContext";
 import { getProgress } from "../../utils/functions/getProgress";
 const ProgressPanel = () => {
-  const { userTrack } = useUser();
+  const { goals } = useUser();
   return (
     <div className=" mt-5 relative">
       <div className="flex justify-start items-center overflow-x-scroll scrollbar-hidden px-5">
         <SideStrips />
-        {userTrack.map((data, index) => {
-          if (data.values.isSet) {
-            return <ProgressBox {...data} index={index} />;
+        {goals.map((data, index) => {
+          if (data.isSet) {
+            return <ProgressBox key={index} {...data} index={index} />;
           }
           return null;
         })}
@@ -20,9 +20,23 @@ const ProgressPanel = () => {
   );
 };
 
-const ProgressBox = ({ title, icon, color, values, index }) => {
+const ProgressBox = ({
+  name,
+  title,
+  icon,
+  color,
+  targetLabel,
+  valueLabel,
+  unit,
+  isSet,
+  daily,
+  monthly,
+  yearly,
+  index,
+}) => {
   return (
     <motion.div
+      key={index}
       initial={{ opacity: 0, x: 30 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.1, duration: 0.6, ease: "easeInOut" }}
@@ -34,22 +48,22 @@ const ProgressBox = ({ title, icon, color, values, index }) => {
           {title} {icon}
         </h1>
         <span className="text-sm font-semibold mt-2 text-[#383838]">
-          {values.valueLabel}
+          {valueLabel}
         </span>
         <span className="text-xl" style={{ color: color }}>
-          {values["Daily"].value} {values.unit}
+          {daily.value} {unit}
         </span>
         <span className="text-sm font-semibold mt-2 text-[#383838]">
-          {values.targetLabel}
+          {targetLabel}
         </span>
         <span className="text-base ">
-          {values["Daily"].target} {values.unit}
+          {daily.target} {unit}
         </span>
       </div>
       <div className=" w-[50%] h-full flex justify-center items-center relative">
         <CircularProgress
           size={130}
-          value={getProgress(values["Daily"].value, values["Daily"].target)}
+          value={getProgress(daily.value, daily.target)}
           trackColor="#1f1f1f"
           capIsRound
           thickness={7}
@@ -59,7 +73,7 @@ const ProgressBox = ({ title, icon, color, values, index }) => {
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xl"
           style={{ color: color }}
         >
-          {getProgress(values["Daily"].value, values["Daily"].target)}%
+          {getProgress(daily.value, daily.target)}%
         </span>
       </div>
     </motion.div>
