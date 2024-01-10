@@ -58,11 +58,7 @@ export const UserProvider = ({ children }) => {
   const updateTodaysTrack = async (updatedTrack) => {
     const firestore = getFirestore(app);
     try {
-      const docRef = doc(
-        firestore,
-        "UserTrack",
-        `${updatedTrack.name}_${today}`
-      );
+      const docRef = doc(firestore, "UserTrack", `${updatedTrack.name}`);
       await updateDoc(docRef, updatedTrack);
       toast.success("Added");
     } catch (e) {
@@ -131,6 +127,7 @@ export const UserProvider = ({ children }) => {
                 // Check if between the last and today's date, are there any missing track records
                 const areAbsentRecords =
                   today - userDocuments[userDocuments.length - 1].dateId > 1;
+                console.log("areAbsentRecords: ", areAbsentRecords);
                 if (areAbsentRecords) {
                   const dateStrings = generateDateStringsFromDateToDate(
                     String(userDocuments[userDocuments.length - 1].dateId + 1)

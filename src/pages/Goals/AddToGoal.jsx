@@ -78,7 +78,6 @@ const AddToGoal = () => {
       (copy) => copy.dateId === Number(today)
     );
     await updateTodaysTrack(updatedTrack);
-    toast.success(`Updated`);
     navigate("/");
   };
   return (

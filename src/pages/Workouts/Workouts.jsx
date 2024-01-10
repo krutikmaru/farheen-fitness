@@ -39,7 +39,9 @@ const Workouts = () => {
       </div>
       <div className="flex flex-col space-y-4">
         {workouts.map((workout, index) => {
-          return <WorkoutVideoElement {...{ workout, index }} />;
+          return (
+            <WorkoutVideoElement key={workout.id} {...{ workout, index }} />
+          );
         })}
       </div>
     </div>

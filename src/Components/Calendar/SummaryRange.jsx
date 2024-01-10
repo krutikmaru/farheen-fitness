@@ -32,8 +32,6 @@ const SummaryRange = ({ summaryData }) => {
       data[i].data.push({ value, date });
     }
   }
-  console.log(summaryData);
-  console.log("SUMM", data);
   return (
     <div className="mt-10 ">
       <div className="flex flex-col space-y-5">

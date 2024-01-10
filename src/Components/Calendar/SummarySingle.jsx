@@ -1,17 +1,15 @@
 import { faGhost } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { Legend, Line, LineChart, Tooltip, XAxis } from "recharts";
+import { Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 import { useUser } from "../../contexts/UserContext";
 
 const SummarySingle = ({ summaryData }) => {
-  console.log(summaryData);
   const { goals } = useUser();
   let data = [];
   for (const property in summaryData.track) {
     let dataArray = [];
     const goal = goals.find((goal) => goal.name === property);
-    console.log(goal);
     for (let i = 0; i < summaryData.track[property].values.length; i++) {
       dataArray.push({
         value: summaryData.track[property].values[i],
@@ -23,6 +21,7 @@ const SummarySingle = ({ summaryData }) => {
       icon: goal.icon,
       title: goal.title,
       data: dataArray,
+      maxValue: Math.max(...dataArray.map((item) => parseInt(item.value, 10))),
     });
   }
   return (
@@ -30,14 +29,11 @@ const SummarySingle = ({ summaryData }) => {
       <div className="flex flex-col space-y-5">
         {data.map((d) => {
           return (
-            <>
-              <h1 key={d.name} className="text-4xl text-left lg:text-center">
+            <div key={d.name}>
+              <h1 className="text-4xl text-left lg:text-center">
                 {d.title} {d.icon}
               </h1>
-              <div
-                key={d.name}
-                className="w-full overflow-x-scroll rounded-lg pb-4 overflow-y-hidden flex items-center justify-start lg:justify-center"
-              >
+              <div className="w-full overflow-x-scroll rounded-lg pb-4 overflow-y-hidden flex items-center justify-start lg:justify-center">
                 {d.data.length !== 0 ? (
                   <div className="w-[700px] h-[400px] bg-[#101010] p-5 rounded-md">
                     <LineChart
@@ -68,6 +64,7 @@ const SummarySingle = ({ summaryData }) => {
                         dot={false}
                       />
                       <XAxis dataKey="time" />
+                      <YAxis hide type="number" domain={[0, d.maxValue]} />
                     </LineChart>
                   </div>
                 ) : (
@@ -81,7 +78,7 @@ const SummarySingle = ({ summaryData }) => {
                   </div>
                 )}
               </div>
-            </>
+            </div>
           );
         })}
       </div>
