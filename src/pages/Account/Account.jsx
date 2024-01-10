@@ -27,7 +27,7 @@ const Account = () => {
       </div>
       {/* Details  */}
       <div className="mt-10">
-        <Details name={user.name} email={user.email} />
+        <Details name={user.name} email={user.email} joined={user.joinDateId} />
       </div>
     </div>
   );

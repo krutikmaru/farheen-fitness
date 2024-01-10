@@ -6,12 +6,16 @@ import {
   where,
   query,
   getFirestore,
+  doc,
+  setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import app from "../backend/Firebase/firebase";
 import { userTrackData } from "../utils/data/userTrack";
 import { goalsState } from "../utils/data/goalsBaseState";
 import { formatDateToYYYYMMDD } from "../utils/functions/formatToYYYYMMDD";
 import { generateDateStringsFromDateToDate } from "../utils/functions/generateDateStringsFromDateToDate";
+import toast from "react-hot-toast";
 import { roundToTwoDecimalPlaces } from "../utils/functions/roundToTwoDecimalPlace";
 import {
   extractRecordsOfDay,
@@ -38,8 +42,45 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [goals, setGoals] = useState(goalsState);
   const [userTrack, setUserTrack] = useState(userTrackData);
-  // const [today] = useState(formatDateToYYYYMMDD(new Date()));
   const [today] = useState(formatDateToYYYYMMDD(new Date()));
+
+  const updateUser = async (updatedUser) => {
+    const auth = getAuth();
+    const firestore = getFirestore(app);
+    try {
+      const docRef = doc(firestore, "Users", auth.currentUser.email);
+      await updateDoc(docRef, updatedUser);
+      toast.success("Updated");
+    } catch (e) {
+      toast.error("Error updating");
+      console.log(e);
+    }
+  };
+
+  const updateTodaysTrack = async (updatedTrack) => {
+    const auth = getAuth();
+    const firestore = getFirestore(app);
+    try {
+      const docRef = doc(firestore, "UserTrack", updatedTrack.name);
+      await updateDoc(docRef, updatedTrack);
+      toast.success("Added");
+    } catch (e) {
+      toast.error("Error Adding");
+      console.log(e);
+    }
+  };
+
+  const getTotal = (records, userData, index) => {
+    let total = 0;
+    for (let i = 0; i < records.length; i++) {
+      if (records[i].track[userData.goals[index].name].values.length !== 0) {
+        total += records[i].track[userData.goals[index].name].values.reduce(
+          (acc, val) => Number(acc) + Number(val)
+        );
+      }
+    }
+    return total;
+  };
 
   useEffect(() => {
     const auth = getAuth();
@@ -56,66 +97,57 @@ export const UserProvider = ({ children }) => {
               usersCollectionRef,
               where("email", "==", auth.currentUser.email)
             );
-            const querySnapshot = await getDocs(q);
+            const userQuerySnapshot = await getDocs(q);
 
-            if (!querySnapshot.empty) {
-              const userDocSnapshot = querySnapshot.docs[0];
-              // remove this goals array and add it to database
+            if (!userQuerySnapshot.empty) {
+              const userDocSnapshot = userQuerySnapshot.docs[0];
+
               const userData = {
                 ...userDocSnapshot.data(),
-                goals: [
-                  {
-                    name: "water",
-                    isSet: true,
-                    daily: 3,
-                    monthly: 90,
-                    yearly: 1080,
-                  },
-                  {
-                    name: "calories",
-                    isSet: true,
-                    daily: 500,
-                    monthly: 15000,
-                    yearly: 180000,
-                  },
-                  {
-                    name: "sleep",
-                    isSet: true,
-                    daily: 7,
-                    monthly: 210,
-                    yearly: 2520,
-                  },
-                  {
-                    name: "steps",
-                    isSet: false,
-                    daily: 0,
-                    monthly: 0,
-                    yearly: 0,
-                  },
-                ],
               };
               setUser(userData);
 
-              // fetch user tracks
-              // createPossibleMissingRecords()
-
-              // Make this a function
-              // Checking if track document for today exists
-              const todayDocumentExists = userTrack.find(
-                (track) => track.dateId === today
+              const userTrackCollectionRef = collection(firestore, "UserTrack");
+              const userTrackQuerySnapshot = await getDocs(
+                userTrackCollectionRef
               );
+              const userDocuments = [];
+
+              userTrackQuerySnapshot.forEach((doc) => {
+                if (doc.id.startsWith(auth.currentUser.email)) {
+                  userDocuments.push(doc.data());
+                }
+              });
+
+              console.log("userdocuments", userDocuments);
+
+              const todayDocumentExists = userDocuments.find(
+                (track) => track.dateId === Number(today)
+              );
+              console.log("todaysDocumentsExists", todayDocumentExists);
+
               if (!todayDocumentExists) {
                 // Check if between the last and today's date, are there any missing track records
                 const areAbsentRecords =
-                  today - userTrack[userTrack.length - 1].dateId > 1;
+                  today - userDocuments[userDocuments.length - 1].dateId > 1;
                 if (areAbsentRecords) {
                   const dateStrings = generateDateStringsFromDateToDate(
-                    String(userTrack[userTrack.length - 1].dateId + 1)
+                    String(userDocuments[userDocuments.length - 1].dateId + 1)
                   );
-                  const missingDays = dateStrings.map((dateString) => {
-                    return {
-                      name: `hariameera@gmail.com_${dateString}`,
-                      dateId: Number(dateString),
+                  for (let index = 0; index < dateStrings.length; index++) {
+                    const userTrackCollection = collection(
+                      firestore,
+                      "UserTrack"
+                    );
+                    const userTrackDocRef = doc(
+                      userTrackCollection,
+                      `${auth.currentUser.email}_${Number(dateStrings[index])}`
+                    );
+                    await setDoc(userTrackDocRef, {
+                      name: `${auth.currentUser.email}_${Number(
+                        dateStrings[index]
+                      )}`,
+                      dateId: Number(dateStrings[index]),
                       track: {
                         water: {
                           values: [],
@@ -134,125 +166,130 @@ export const UserProvider = ({ children }) => {
                           time: [],
                         },
                       },
-                    };
-
-                    // dummy data for today
-                  });
-                  missingDays[missingDays.length - 1].track.water.values = [
-                    0.4, 0.6, 0.36,
-                  ];
-                  missingDays[missingDays.length - 1].track.water.time = [
-                    "08:12",
-                    "10:27",
-                    "13:42",
-                  ];
-                  missingDays[missingDays.length - 1].track.calories.values = [
-                    124, 176, 76,
-                  ];
-                  missingDays[missingDays.length - 1].track.calories.time = [
-                    "09:07",
-                    "11:28",
-                    "13:54",
-                  ];
-                  missingDays[missingDays.length - 1].track.sleep.values = [
-                    5, 1.5,
-                  ];
-                  missingDays[missingDays.length - 1].track.sleep.time = [
-                    "12:08",
-                    "15:00",
-                  ];
-                  setUserTrack([...userTrack, ...missingDays]);
-                  const recordsOfYear = extractRecordsOfYear(
-                    [...userTrack, ...missingDays],
-                    extractYear(today)
+                    });
+                    userDocuments.push({
+                      name: `${auth.currentUser.email}_${Number(
+                        dateStrings[index]
+                      )}`,
+                      dateId: Number(dateStrings[index]),
+                      track: {
+                        water: {
+                          values: [],
+                          time: [],
+                        },
+                        calories: {
+                          values: [],
+                          time: [],
+                        },
+                        sleep: {
+                          values: [],
+                          time: [],
+                        },
+                        steps: {
+                          values: [],
+                          time: [],
+                        },
+                      },
+                    });
+                  }
+                  setUserTrack(userDocuments);
+                } else {
+                  const userTrackCollection = collection(
+                    firestore,
+                    "UserTrack"
                   );
-                  const recordsOfMonth = extractRecordsOfMonth(
-                    [...userTrack, ...missingDays],
-                    extractYear(today),
-                    extractMonth(today)
+                  const userTrackDocRef = doc(
+                    userTrackCollection,
+                    `${auth.currentUser.email}_${today}`
                   );
-                  const recordOfToday = extractRecordsOfDay(
-                    [...userTrack, ...missingDays],
-                    today
-                  );
-
-                  console.log(recordsOfMonth);
-
-                  let arr = [];
-
-                  recordOfToday.map((record) => {
-                    for (const key in record.track) {
-                      let value = 0;
-                      if (record.track[key].values.length !== 0) {
-                        value = record.track[key].values.reduce(
-                          (acc, val) => acc + val
-                        );
-                      }
-                      arr = goals.map((goal) => {
-                        if (goal.name === key) {
-                          goal["daily"].value = roundToTwoDecimalPlaces(value);
-                          goal["daily"].target = userData.goals.find((g) => {
-                            return g.name === key;
-                          })["daily"];
-                          return goal;
-                        }
-                        return goal;
-                      });
-                    }
+                  await setDoc(userTrackDocRef, {
+                    name: `${auth.currentUser.email}_${Number(today)}`,
+                    dateId: Number(today),
+                    track: {
+                      water: {
+                        values: [],
+                        time: [],
+                      },
+                      calories: {
+                        values: [],
+                        time: [],
+                      },
+                      sleep: {
+                        values: [],
+                        time: [],
+                      },
+                      steps: {
+                        values: [],
+                        time: [],
+                      },
+                    },
                   });
-
-                  recordsOfMonth.map((record) => {
-                    for (const key in record.track) {
-                      let value = 0;
-                      if (record.track[key].values.length !== 0) {
-                        value = record.track[key].values.reduce(
-                          (acc, val) => acc + val
-                        );
-                      }
-                      arr = goals.map((goal) => {
-                        if (goal.name === key) {
-                          goal["monthly"].value =
-                            roundToTwoDecimalPlaces(value);
-                          goal["monthly"].target = userData.goals.find((g) => {
-                            return g.name === key;
-                          })["monthly"];
-                          return goal;
-                        }
-                        return goal;
-                      });
-                    }
+                  userDocuments.push({
+                    name: `${auth.currentUser.email}_${Number(today)}`,
+                    dateId: Number(today),
+                    track: {
+                      water: {
+                        values: [],
+                        time: [],
+                      },
+                      calories: {
+                        values: [],
+                        time: [],
+                      },
+                      sleep: {
+                        values: [],
+                        time: [],
+                      },
+                      steps: {
+                        values: [],
+                        time: [],
+                      },
+                    },
                   });
-
-                  recordsOfYear.map((record) => {
-                    for (const key in record.track) {
-                      let value = 0;
-                      if (record.track[key].values.length !== 0) {
-                        value = record.track[key].values.reduce(
-                          (acc, val) => acc + val
-                        );
-                      }
-                      arr = goals.map((goal) => {
-                        if (goal.name === key) {
-                          goal["yearly"].value = roundToTwoDecimalPlaces(value);
-                          goal["yearly"].target = userData.goals.find((g) => {
-                            return g.name === key;
-                          })["yearly"];
-                          return goal;
-                        }
-                        return goal;
-                      });
-                    }
-                  });
-                  console.log(arr);
+                  setUserTrack(userDocuments);
                 }
+              } else {
+                setUserTrack(userDocuments);
               }
+              const goalsCopy = JSON.parse(JSON.stringify(goals));
+              for (let index in userData.goals) {
+                const correspondingGoalIndex = goalsCopy.findIndex(
+                  (g) => g.name === userData.goals[index].name
+                );
+                goalsCopy[correspondingGoalIndex].isSet =
+                  userData.goals[index].isSet;
+                goalsCopy[correspondingGoalIndex].daily.target =
+                  userData.goals[index].daily;
+                goalsCopy[correspondingGoalIndex].monthly.target =
+                  userData.goals[index].monthly;
+                goalsCopy[correspondingGoalIndex].yearly.target =
+                  userData.goals[index].yearly;
 
-              // IMPORTANT 🚨
-              // update goals using userData
-              // await check if document for today exists then
-              // await userTrack
-              // else
-              // create new document for today and then await userTrack (here check the last document for the user, if from that date till today, there are documents missing [user did not use the app], then create empty documents for those dates) [Hint: Subtract today's dateId from latest dateId and check if greater than 1]
+                const recordOfToday = extractRecordsOfDay(userDocuments, today);
+                const recordsOfMonth = extractRecordsOfMonth(
+                  userDocuments,
+                  extractYear(today),
+                  extractMonth(today)
+                );
+                const recordsOfYear = extractRecordsOfDay(userDocuments, today);
+
+                goalsCopy[correspondingGoalIndex].daily.value = getTotal(
+                  recordOfToday,
+                  userData,
+                  index
+                );
+                goalsCopy[correspondingGoalIndex].monthly.value = getTotal(
+                  recordsOfMonth,
+                  userData,
+                  index
+                );
+                goalsCopy[correspondingGoalIndex].yearly.value = getTotal(
+                  recordsOfYear,
+                  userData,
+                  index
+                );
+              }
+              setGoals(goalsCopy);
             } else {
               console.log("User document not found");
             }
@@ -267,7 +304,7 @@ export const UserProvider = ({ children }) => {
     };
 
     fetchData();
-  }, [user]);
+  }, [goals, today, user]);
 
   const value = {
     user,
@@ -277,6 +314,8 @@ export const UserProvider = ({ children }) => {
     userTrack,
     setUserTrack,
     today,
+    updateUser,
+    updateTodaysTrack,
   };
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

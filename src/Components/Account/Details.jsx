@@ -5,8 +5,9 @@ import { useApplicationManager } from "../../contexts/ApplicationContext";
 import { useUser } from "../../contexts/UserContext";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
+import { formatToDDMon } from "../../utils/functions/formatToDDMon";
 
-const Details = ({ name, email }) => {
+const Details = ({ name, email, joined }) => {
   const { activatePopupCenter } = useApplicationManager();
 
   return (
@@ -47,6 +48,16 @@ const Details = ({ name, email }) => {
             type="text"
             disabled
             value={email}
+            className="bg-[#181818] w-full rounded-md py-3 px-4 text-base text-[#636363] outline-none border-2 border-[#1f1f1f]"
+          />
+        </div>
+        <div>
+          <p className="text-[#747474] text-sm font-medium mb-1 ml-1">Joined</p>
+
+          <input
+            type="text"
+            disabled
+            value={formatToDDMon(joined)}
             className="bg-[#181818] w-full rounded-md py-3 px-4 text-base text-[#636363] outline-none border-2 border-[#1f1f1f]"
           />
         </div>

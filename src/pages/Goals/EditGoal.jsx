@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { roundToTwoDecimalPlaces } from "../../utils/functions/roundToTwoDecimalPlace";
 
 const EditGoal = () => {
-  const { goals, setGoals } = useUser();
+  const { user, setUser, goals, setGoals, updateUser } = useUser();
   const { type } = useParams();
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ const EditGoal = () => {
       setMonthly(roundToTwoDecimalPlaces(value / 12));
     }
   };
-  const handleUpdate = () => {
+  const handleUpdate = async (name) => {
     let goalsCopy = [...goals];
     goalsCopy = goalsCopy.map((copy) => {
       if (copy.title === data.title) {
@@ -48,8 +48,21 @@ const EditGoal = () => {
       }
       return copy;
     });
+
+    const userCopy = JSON.parse(JSON.stringify(user));
+    const correspondingGoalIndex = userCopy.goals.findIndex(
+      (g) => g.name === name
+    );
+    console.log(correspondingGoalIndex);
+    userCopy.goals[correspondingGoalIndex].daily = daily;
+    userCopy.goals[correspondingGoalIndex].monthly = monthly;
+    userCopy.goals[correspondingGoalIndex].yearly = yearly;
+    if (!userCopy.goals[correspondingGoalIndex].isSet) {
+      userCopy.goals[correspondingGoalIndex].isSet = true;
+    }
+    await updateUser(userCopy);
+    setUser(userCopy);
     setGoals(goalsCopy);
-    toast.success(`Updated`);
     navigate("/goals");
   };
   return (
@@ -94,7 +107,7 @@ const EditGoal = () => {
         </div>
         <div className="mt-6">
           <button
-            onClick={handleUpdate}
+            onClick={() => handleUpdate(data.name)}
             className="py-2 px-8 bg-green-primary text-black-main font-medium rounded-md"
           >
             {data.isSet ? "Update" : "Set"}

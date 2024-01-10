@@ -4,7 +4,7 @@ import { useUser } from "../../contexts/UserContext";
 import { getDateObjectFromString } from "../../utils/functions/getDateObjectFromString";
 
 export const SingleDayDatePicker = ({ startDate, setStartDate }) => {
-  const { userTrack } = useUser();
+  const { userTrack, user } = useUser();
 
   return (
     <div className="flex flex-col  items-center justify-center">
@@ -17,7 +17,7 @@ export const SingleDayDatePicker = ({ startDate, setStartDate }) => {
           placeholderText="From Date"
           selected={startDate}
           onChange={(date) => setStartDate(date)}
-          minDate={getDateObjectFromString(String(userTrack[0].dateId))}
+          minDate={getDateObjectFromString(String(user.joinDateId))}
           maxDate={getDateObjectFromString(
             String(userTrack[userTrack.length - 1].dateId)
           )}

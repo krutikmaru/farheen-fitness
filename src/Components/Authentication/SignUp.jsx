@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import { useUser } from "../../contexts/UserContext";
 import toast from "react-hot-toast";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, doc, setDoc } from "firebase/firestore";
+import { formatDateToYYYYMMDD } from "../../utils/functions/formatToYYYYMMDD";
 
 const SignUp = ({
   auth,
@@ -13,7 +14,7 @@ const SignUp = ({
   authRequestSent,
   setAuthRequestSent,
 }) => {
-  const { setUser } = useUser();
+  const { setUser, today } = useUser();
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -48,14 +49,103 @@ const SignUp = ({
       await createUserWithEmailAndPassword(auth, email, password);
 
       const usersCollection = collection(firestore, "Users");
-      await addDoc(usersCollection, {
+      const usersDocRef = doc(usersCollection, `${email}`);
+      await setDoc(usersDocRef, {
         name: name,
         email: email,
+        joined: new Date(),
+        joinDateId: formatDateToYYYYMMDD(new Date()),
+        goals: [
+          {
+            name: "water",
+            isSet: false,
+            daily: 0,
+            monthly: 0,
+            yearly: 0,
+          },
+          {
+            name: "calories",
+            isSet: false,
+            daily: 0,
+            monthly: 0,
+            yearly: 0,
+          },
+          {
+            name: "sleep",
+            isSet: false,
+            daily: 0,
+            monthly: 0,
+            yearly: 0,
+          },
+          {
+            name: "steps",
+            isSet: false,
+            daily: 0,
+            monthly: 0,
+            yearly: 0,
+          },
+        ],
       });
 
       setUser({
         name: name,
         email: email,
+        joined: new Date(),
+        joinDateId: formatDateToYYYYMMDD(new Date()),
+        goals: [
+          {
+            name: "water",
+            isSet: false,
+            daily: 0,
+            monthly: 0,
+            yearly: 0,
+          },
+          {
+            name: "calories",
+            isSet: false,
+            daily: 0,
+            monthly: 0,
+            yearly: 0,
+          },
+          {
+            name: "sleep",
+            isSet: false,
+            daily: 0,
+            monthly: 0,
+            yearly: 0,
+          },
+          {
+            name: "steps",
+            isSet: false,
+            daily: 0,
+            monthly: 0,
+            yearly: 0,
+          },
+        ],
+      });
+      const userTrackCollection = collection(firestore, "UserTrack");
+      const userTrackDocRef = doc(userTrackCollection, `${email}_${today}`);
+      await setDoc(userTrackDocRef, {
+        name: email,
+        dateId: Number(today),
+        track: {
+          water: {
+            values: [],
+            time: [],
+          },
+          calories: {
+            values: [],
+            time: [],
+          },
+          sleep: {
+            values: [],
+            time: [],
+          },
+          steps: {
+            values: [],
+            time: [],
+          },
+        },
       });
       setAuthRequestSent(false);
     } catch (error) {

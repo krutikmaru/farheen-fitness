@@ -8,7 +8,7 @@ export const goalsState = [
     targetLabel: "Goal",
     valueLabel: "Consumed",
     unit: "Liters",
-    isSet: true,
+    isSet: false,
     daily: {
       name: "daily",
       target: 0,
@@ -34,7 +34,7 @@ export const goalsState = [
     targetLabel: "Goal",
     valueLabel: "Burnt",
     unit: "Cals",
-    isSet: true,
+    isSet: false,
     daily: {
       name: "daily",
       target: 0,
@@ -60,7 +60,7 @@ export const goalsState = [
     targetLabel: "Goal",
     valueLabel: "Slept",
     unit: "Hours",
-    isSet: true,
+    isSet: false,
     daily: {
       name: "daily",
       target: 0,

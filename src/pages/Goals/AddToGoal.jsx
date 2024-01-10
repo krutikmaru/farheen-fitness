@@ -10,7 +10,8 @@ const AddToGoal = () => {
   const [minute, setMinute] = useState(new Date().getMinutes());
 
   const { type } = useParams();
-  const { goals, setGoals, today, userTrack, setUserTrack } = useUser();
+  const { goals, setGoals, today, userTrack, setUserTrack, updateTodaysTrack } =
+    useUser();
   const navigate = useNavigate();
 
   const data = goals.filter((goal) => goal.name === type.toLowerCase())[0];
@@ -32,21 +33,21 @@ const AddToGoal = () => {
     }
   };
 
-  const handleAdd = () => {
+  const handleAdd = async (name) => {
     let goalsCopy = [...goals];
     goalsCopy = goalsCopy.map((copy) => {
       if (copy.title === data.title) {
         copy["daily"].value = addWithPrecision(
           Number(value),
-          copy["daily"].value
+          Number(copy["daily"].value)
         );
         copy["monthly"].value = addWithPrecision(
           Number(value),
-          copy["monthly"].value
+          Number(copy["monthly"].value)
         );
         copy["yearly"].value = addWithPrecision(
           Number(value),
-          copy["yearly"].value
+          Number(copy["yearly"].value)
         );
 
         return copy;
@@ -73,6 +74,10 @@ const AddToGoal = () => {
     });
     setUserTrack(userTrackCopy);
 
+    const updatedTrack = userTrackCopy.find(
+      (copy) => copy.dateId === Number(today)
+    );
+    await updateTodaysTrack(updatedTrack);
     toast.success(`Updated`);
     navigate("/");
   };
@@ -116,7 +121,7 @@ const AddToGoal = () => {
         </div>
         <div className="mt-6">
           <button
-            onClick={handleAdd}
+            onClick={() => handleAdd(data.name)}
             className="py-2 px-8 bg-green-primary text-black-main font-medium rounded-md"
           >
             Add

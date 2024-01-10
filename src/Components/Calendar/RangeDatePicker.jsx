@@ -9,7 +9,7 @@ export const RangeDatePicker = ({
   setFromDate,
   setToDate,
 }) => {
-  const { userTrack } = useUser();
+  const { userTrack, user } = useUser();
 
   return (
     <div className="flex flex-col space-y-4 items-center justify-center">
@@ -19,7 +19,7 @@ export const RangeDatePicker = ({
           className="text-[#757575] outline-none p-5 rounded-md bg-[#101010] border-2 border-[#272727]"
           placeholderText="From Date"
           selected={fromDate}
-          minDate={getDateObjectFromString(String(userTrack[0].dateId))}
+          minDate={getDateObjectFromString(String(user.joinDateId))}
           maxDate={getDateObjectFromString(
             String(userTrack[userTrack.length - 1].dateId)
           )}
