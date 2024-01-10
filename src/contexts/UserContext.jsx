@@ -16,14 +16,12 @@ import { goalsState } from "../utils/data/goalsBaseState";
 import { formatDateToYYYYMMDD } from "../utils/functions/formatToYYYYMMDD";
 import { generateDateStringsFromDateToDate } from "../utils/functions/generateDateStringsFromDateToDate";
 import toast from "react-hot-toast";
-import { roundToTwoDecimalPlaces } from "../utils/functions/roundToTwoDecimalPlace";
 import {
   extractRecordsOfDay,
   extractRecordsOfMonth,
   extractRecordsOfYear,
 } from "../utils/functions/extractRecords";
 import {
-  extractDay,
   extractMonth,
   extractYear,
 } from "../utils/functions/extractFromYYYYMMDD";
@@ -58,7 +56,6 @@ export const UserProvider = ({ children }) => {
   };
 
   const updateTodaysTrack = async (updatedTrack) => {
-    const auth = getAuth();
     const firestore = getFirestore(app);
     try {
       const docRef = doc(
@@ -275,7 +272,10 @@ export const UserProvider = ({ children }) => {
                   extractYear(today),
                   extractMonth(today)
                 );
-                const recordsOfYear = extractRecordsOfDay(userDocuments, today);
+                const recordsOfYear = extractRecordsOfYear(
+                  userDocuments,
+                  today
+                );
 
                 goalsCopy[correspondingGoalIndex].daily.value = getTotal(
                   recordOfToday,
