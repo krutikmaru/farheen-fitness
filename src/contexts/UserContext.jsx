@@ -61,7 +61,11 @@ export const UserProvider = ({ children }) => {
     const auth = getAuth();
     const firestore = getFirestore(app);
     try {
-      const docRef = doc(firestore, "UserTrack", updatedTrack.name);
+      const docRef = doc(
+        firestore,
+        "UserTrack",
+        `${updatedTrack.name}_${today}`
+      );
       await updateDoc(docRef, updatedTrack);
       toast.success("Added");
     } catch (e) {
