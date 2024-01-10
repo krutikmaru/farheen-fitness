@@ -68,7 +68,6 @@ const SummarySingle = ({ summaryData }) => {
                         dot={false}
                       />
                       <XAxis dataKey="time" />
-                      {/* <YAxis /> */}
                     </LineChart>
                   </div>
                 ) : (
