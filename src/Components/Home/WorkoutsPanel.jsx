@@ -1,34 +1,11 @@
 import React from "react";
 import WorkoutVideoElement from "../Reusables/WorkoutVideoElement";
 import { Link } from "react-router-dom";
+import { workoutVideos } from "../../utils/data/workouts";
 
 const WorkoutsPanel = () => {
-  const workoutVideos = [
-    {
-      id: "BGXGdUj93BM",
-      title: "15 MIN FULL BODY WORKOUT AT HOME",
-      image: "https://img.youtube.com/vi/BGXGdUj93BM/mqdefault.jpg",
-      category: "Full Body",
-    },
-    {
-      id: "1iqzlhL95cI",
-      title: "Complete Abs Workout in 7 Minutes",
-      image: "https://img.youtube.com/vi/1iqzlhL95cI/mqdefault.jpg",
-      category: "Abs",
-    },
-    {
-      id: "Dk21IuMwpec",
-      title: "Chest. Shoulder & ABS Workout (No Equipment, No gym)",
-      image: "https://img.youtube.com/vi/Dk21IuMwpec/mqdefault.jpg",
-      category: "Upper Body",
-    },
-    {
-      id: "ALXh7L4cfKk",
-      title: "10 MIN SIX PACK ABS WORKOUT AT HOME ",
-      image: "https://img.youtube.com/vi/ALXh7L4cfKk/mqdefault.jpg",
-      category: "Abs",
-    },
-  ];
+  // randomize the videos and then getting the first four videos
+  let videos = workoutVideos.sort(() => Math.random() - 0.5).slice(0, 4);
   return (
     <div className="mt-10 w-full ">
       <h1 className="text-2xl">Workouts</h1>
@@ -43,7 +20,7 @@ const WorkoutsPanel = () => {
               View All
             </Link>
           </div>
-          {workoutVideos.map((workout, index) => {
+          {videos.map((workout, index) => {
             return <WorkoutVideoElement key={index} {...{ workout, index }} />;
           })}
         </div>

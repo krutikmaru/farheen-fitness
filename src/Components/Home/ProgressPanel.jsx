@@ -3,6 +3,7 @@ import { CircularProgress } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useUser } from "../../contexts/UserContext";
 import { getProgress } from "../../utils/functions/getProgress";
+import { useNavigate } from "react-router-dom";
 const ProgressPanel = () => {
   const { goals } = useUser();
   return (
@@ -34,14 +35,17 @@ const ProgressBox = ({
   yearly,
   index,
 }) => {
+  const navigate = useNavigate();
   return (
     <motion.div
       key={index}
       initial={{ opacity: 0, x: 30 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.1, duration: 0.6, ease: "easeInOut" }}
-      className="min-w-[340px] h-48  bg-[#101010] mr-5 p-5 rounded-md flex justify-center items-center "
-      style={{ border: `2px solid #272727` }}
+      className="min-w-[340px] h-48  bg-[#101010] mr-5 p-5 rounded-md flex justify-center items-center cursor-pointer border-2 border-[#272727] hover:border-2 hover:border-[#dfff10b8] transition-colors duration-300 ease-in-out"
+      onClick={() => {
+        navigate(`/goals/${name}/add`);
+      }}
     >
       <div className=" w-[45%] h-full  flex flex-col">
         <h1 className="text-xl ">
