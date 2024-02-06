@@ -68,12 +68,21 @@ export const UserProvider = ({ children }) => {
   };
 
   const getTotal = (records, userData, index) => {
+    console.log(records);
     let total = 0;
     for (let i = 0; i < records.length; i++) {
       if (records[i].track[userData.goals[index].name].values.length !== 0) {
-        total += records[i].track[userData.goals[index].name].values.reduce(
-          (acc, val) => Number(acc) + Number(val)
-        );
+        console.log(records[i].track[userData.goals[index].name].values);
+        if (records[i].track[userData.goals[index].name].values.length === 1) {
+          total += Number(
+            records[i].track[userData.goals[index].name].values[0]
+          );
+        } else {
+          total += records[i].track[userData.goals[index].name].values.reduce(
+            (acc, val) => Number(acc) + Number(val)
+          );
+        }
+        console.log(typeof total, total);
       }
     }
     return total;
@@ -116,12 +125,9 @@ export const UserProvider = ({ children }) => {
                 }
               });
 
-              console.log("userdocuments", userDocuments);
-
               const todayDocumentExists = userDocuments.find(
                 (track) => track.dateId === Number(today)
               );
-              console.log("todaysDocumentsExists", todayDocumentExists);
 
               if (!todayDocumentExists) {
                 // Check if between the last and today's date, are there any missing track records
@@ -271,7 +277,7 @@ export const UserProvider = ({ children }) => {
                 );
                 const recordsOfYear = extractRecordsOfYear(
                   userDocuments,
-                  today
+                  String(new Date().getFullYear())
                 );
 
                 goalsCopy[correspondingGoalIndex].daily.value = getTotal(
@@ -279,6 +285,7 @@ export const UserProvider = ({ children }) => {
                   userData,
                   index
                 );
+                console.log(goalsCopy);
                 goalsCopy[correspondingGoalIndex].monthly.value = getTotal(
                   recordsOfMonth,
                   userData,
@@ -291,6 +298,7 @@ export const UserProvider = ({ children }) => {
                 );
               }
               setGoals(goalsCopy);
+              console.log(goalsCopy);
             } else {
               console.log("User document not found");
             }

@@ -35,6 +35,7 @@ const SingleGoalDisplay = ({
   yearly,
   index,
 }) => {
+  console.log(yearly);
   const timeframes = ["Daily", "Monthly", "Yearly"];
   const values = { daily, monthly, yearly };
   const [timeframe, setTimeframe] = useState(timeframes[0]);
