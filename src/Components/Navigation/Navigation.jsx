@@ -3,9 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useApplicationManager } from "../../contexts/ApplicationContext";
 import { Link } from "react-router-dom";
+import { useUser } from "../../contexts/UserContext";
 const Navigation = () => {
   const { isSmallScreen, isMobileMenuActive, setIsMobileMenuActive } =
     useApplicationManager();
+  const { user } = useUser();
 
   return (
     <nav className="fixed top-0 left-0 w-full z-[1000] h-16 px-5 text-white font-lexend bg-black-main flex justify-between items-center border-b-2 border-[#131313]">
@@ -17,12 +19,8 @@ const Navigation = () => {
       </div>
       <div className="h-14 flex justify-center items-center ">
         <Link to="/account">
-          <div className="w-9 h-9 rounded-full  bg-green-primary cursor-pointer relative overflow-hidden">
-            <img
-              src="https://i.ytimg.com/vi/7udSzXYWOd0/hq720.jpg?sqp=-oaymwEYCJUDENAFSFryq4qpAwoIARUAAIhC0AEB&rs=AOn4CLCOC6fH67x3HSQJvqVJMhwrSXURhQ"
-              className="absolute object-cover top-0 left-0 w-full h-full"
-              alt="MEERA"
-            />
+          <div className="w-9 h-9 rounded-full flex justify-center items-center bg-green-primary cursor-pointer relative overflow-hidden">
+            <h1 className="text-black-main text-xl">{user.name[0]}</h1>
           </div>
         </Link>
         {isSmallScreen && (

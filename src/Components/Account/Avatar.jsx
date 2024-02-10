@@ -1,6 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useUser } from "../../contexts/UserContext";
 const Avatar = ({ image, name }) => {
+  const { user } = useUser();
   return (
     <motion.div className="w-full min-h-[200px] flex justify-center items-center flex-col">
       <motion.div
@@ -10,13 +12,9 @@ const Avatar = ({ image, name }) => {
           duration: 0.5,
           ease: "easeInOut",
         }}
-        className="bg-[#181818] h-52 w-52 rounded-full relative overflow-hidden"
+        className="bg-green-primary flex justify-center items-center h-52 w-52 rounded-full relative overflow-hidden"
       >
-        <img
-          className="absolute object-cover top-0 left-0 w-full h-full"
-          src={image}
-          alt={name}
-        />
+        <h1 className="text-black-main text-9xl">{user.name[0]}</h1>
       </motion.div>
       <motion.h1
         initial={{ opacity: 0, y: 20 }}
