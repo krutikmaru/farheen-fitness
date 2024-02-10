@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import PuffLoader from "react-spinners/PuffLoader";
 import { useApplicationManager } from "../../contexts/ApplicationContext";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Diet = () => {
   const [requestSent, setIsRequestSent] = useState(false);
@@ -13,14 +15,28 @@ const Diet = () => {
     setSelectedMenubarItemId("cf75b6446a444111acb071259e93cf47");
   }, [setSelectedMenubarItemId]);
 
-  const sendRequest = () => {
+  const sendRequest = async () => {
     setIsRequestSent(true);
-    setTimeout(() => {
-      setResponse(
-        "1. Tip 1: Cut back on sugary drinks and snacks.\n2. Tip 2: Incorporate both cardio and strength training in your routine.\n\n1. Diet 1: Opt for whole grains over refined carbs like white bread.\n2. Diet 2: Add more protein to your meals; think chicken, fish, or tofu."
-      );
-      setIsRequestSent(false);
-    }, 5000);
+    setResponse(null);
+    setTimeout(async () => {
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:5000/predict-diet-plan",
+          {
+            user_prompt: prompt,
+          }
+        );
+        if (response.data.status === "success") {
+          console.log(response.data);
+          setResponse(response.data.diet_plan);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+      } finally {
+        setIsRequestSent(false);
+      }
+    }, 2000);
   };
   return (
     <div className=" flex w-full min-h-screen flex-col  p-8">
@@ -78,7 +94,13 @@ const Diet = () => {
         >
           <p className="text-[#535353] text-sm font-medium mb-1">Response</p>
           <pre className="px-5 w-full whitespace-pre-wrap font-lexend text-[#b8b8b8] text-lg mt-3 p-5 rounded-md bg-[#101010] border-2 border-green-primary">
-            {response}
+            🥣 {response.breakfast}
+          </pre>
+          <pre className="px-5 w-full whitespace-pre-wrap font-lexend text-[#b8b8b8] text-lg mt-3 p-5 rounded-md bg-[#101010] border-2 border-green-primary">
+            🍚 {response.lunch}
+          </pre>
+          <pre className="px-5 w-full whitespace-pre-wrap font-lexend text-[#b8b8b8] text-lg mt-3 p-5 rounded-md bg-[#101010] border-2 border-green-primary">
+            🍽️ {response.dinner}
           </pre>
         </motion.div>
       )}
